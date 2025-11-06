@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <!-- ✅ Preconnect to speed up Google Fonts & Unsplash -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://images.unsplash.com" />
+
+    <!-- ✅ Favicons -->
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+
+    <!-- ✅ Preload hero image (critical for Largest Contentful Paint) -->
+    <link
+      rel="preload"
+      as="image"
+      href="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1600&q=80"
+      type="image/jpeg"
+      fetchpriority="high"
+    />
+
+    <!-- ✅ Preload main font weights (reduces layout shift) -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;600;700&family=Smooch+Sans:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- ✅ Mobile-friendly viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- ✅ SEO -->
+    <title>College Website | Excellence in Education & Innovation</title>
+    <meta
+      name="description"
+      content="Official website of our college — explore programs, leadership, research, and admission details for 2025-26."
+    />
+
+    <!-- ✅ Theme & color for PWA / mobile -->
+    <meta name="theme-color" content="#2b6ef6" />
+
+    <!-- ✅ Performance hint: prefer async decoding for images -->
+    <meta http-equiv="Accept-CH" content="DPR, Viewport-Width, Width" />
+  </head>
+
+  <body>
+    <div id="root"></div>
+
+    <!-- ✅ Defer Vite bundle loading until HTML parsed -->
+    <script type="module" src="/src/main.jsx" defer></script>
+  </body>
+</html>

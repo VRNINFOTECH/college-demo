@@ -1,0 +1,80 @@
+/* =========================
+   src/app.css
+   - All @import rules must be at the top (PostCSS requirement)
+   - Use Tailwind with @tailwind directives (PostCSS)
+   - Raleway is applied site-wide
+   ========================= */
+
+/* AOS animations (keep if you use AOS) */
+@import "aos/dist/aos.css";
+
+/* Google Fonts (Raleway + Smooch Sans). Use display=swap to avoid FOIT.
+   Note: I removed the invalid 'Momo Trust Sans' import — if you have that font
+   as a local file, add an @font-face block instead. */
+
+/* Tailwind directives (PostCSS must process these) */
+@import "tailwindcss";
+
+/* ------------ Global styles ------------ */
+
+/* Reserve space for a fixed header when using anchor links */
+:root,
+html {
+  /* adjust this value to match your fixed header height */
+  scroll-padding-top: 5rem;
+}
+
+/* Use Raleway as the primary font for the whole site */
+:root {
+  --site-font: "Raleway", "Smooch Sans", system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  font-family: var(--site-font);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #0f172a; /* dark slate */
+  background-color: #ffffff;
+  margin: 0;
+}
+
+/* Headings: keep weight & letter-spacing consistent with Raleway */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--site-font);
+  font-weight: 700;
+}
+
+/* Accessibility: visible focus styles */
+a:focus,
+button:focus,
+input:focus,
+textarea:focus {
+  outline: 3px solid rgba(59, 130, 246, 0.16);
+  outline-offset: 3px;
+}
+
+/* Small utilities used by components */
+.card-shadow {
+  box-shadow: 0 6px 20px rgba(2, 6, 23, 0.08), 0 1px 2px rgba(2, 6, 23, 0.04);
+  border-radius: 12px;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(8px) saturate(120%);
+  -webkit-backdrop-filter: blur(8px) saturate(120%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Responsive heading helper */
+.h1-clamp {
+  font-size: clamp(1.75rem, 4vw + 1rem, 3.75rem);
+}
+
+/* Keep this file for global overrides — component-specific styles should live
+   next to components or in CSS modules where possible. */
