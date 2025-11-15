@@ -2,8 +2,8 @@
 import React, { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { ChevronRight, Calendar } from "lucide-react";
-import BookCard from "../../components/Cards/Bookcard";
-import Card from "../../components/Cards/Programcards"; // <-- new import for reusable card
+import BookCard from "../../components/Cards/BookCard"; // <- corrected import (case-sensitive)
+import Card from "../../components/Cards/Programcards"; // <-- keep as-is (assumes Programcards file exists)
 
 export default function AboutUniversity() {
   /** Hero background images */
@@ -90,26 +90,25 @@ export default function AboutUniversity() {
     { q: "Can international students apply?", a: "Yes — we have an International Office to support admissions, visas and housing." },
   ];
   const campusLife = [
-  {
-    title: "Student Clubs",
-    desc: "50+ clubs across arts, tech, sports and entrepreneurship.",
-    img: "https://business.stthomas.edu/_media-library/degrees-programs/undergraduate/student-experience/images/stthomas-student-alumni-event.jpg",
-    href: "/campus/clubs",
-  },
-  {
-    title: "Events & Festivals",
-    desc: "Annual tech fest, cultural week and sports meet bring campus alive.",
-    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXuQlZ6-aAuHD-3CBBSkNz5Dj4hJFc_f21Qw&s",
-    href: "/campus/events",
-  },
-  {
-    title: "Housing & Dining",
-    desc: "Safe, comfortable hostels with nutritious meal plans and 24/7 support.",
-    img: "https://3.imimg.com/data3/EE/HH/MY-6533282/mess-and-hostel-500x500.png",
-    href: "/campus/housing",
-  },
-];
-
+    {
+      title: "Student Clubs",
+      desc: "50+ clubs across arts, tech, sports and entrepreneurship.",
+      img: "https://business.stthomas.edu/_media-library/degrees-programs/undergraduate/student-experience/images/stthomas-student-alumni-event.jpg",
+      href: "/campus/clubs",
+    },
+    {
+      title: "Events & Festivals",
+      desc: "Annual tech fest, cultural week and sports meet bring campus alive.",
+      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXuQlZ6-aAuHD-3CBBSkNz5Dj4hJFc_f21Qw&s",
+      href: "/campus/events",
+    },
+    {
+      title: "Housing & Dining",
+      desc: "Safe, comfortable hostels with nutritious meal plans and 24/7 support.",
+      img: "https://3.imimg.com/data3/EE/HH/MY-6533282/mess-and-hostel-500x500.png",
+      href: "/campus/housing",
+    },
+  ];
 
   const heroGradient = "linear-gradient(90deg, #2B6EF6 0%, #7C3AED 100%)";
 
@@ -287,32 +286,30 @@ export default function AboutUniversity() {
       </section>
 
       {/* ===================== CAMPUS LIFE ===================== */}
-      {/* ===================== CAMPUS LIFE (with Card component) ===================== */}
-<section className="max-w-7xl mx-auto px-6 py-14 fade-item opacity-0 translate-y-6 transition-all duration-700">
-  <div className="text-center mb-8">
-    <h2 className="text-2xl md:text-3xl font-bold text-blue-900">Campus Life</h2>
-    <p className="text-gray-600 max-w-2xl mx-auto">Student clubs, cultural festivals, and community life</p>
-  </div>
+      <section className="max-w-7xl mx-auto px-6 py-14 fade-item opacity-0 translate-y-6 transition-all duration-700">
+        <div className="text-center mb-8">
+          <h2 className="text-2xl md:text-3xl font-bold text-blue-900">Campus Life</h2>
+          <p className="text-gray-600 max-w-2xl mx-auto">Student clubs, cultural festivals, and community life</p>
+        </div>
 
-  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
-    {campusLife.map((item, idx) => (
-      <Card
-        key={idx}
-        title={item.title}
-        desc={item.desc}
-        href={item.href}
-        image={item.img}
-        ctaText="Learn More"
-        imageHeight="180px"
-        bg="#E2E8F0"
-        target="_self"
-        ariaLabel={item.title}
-        style={{ width: "100%", maxWidth: 320 }}
-      />
-    ))}
-  </div>
-</section>
-
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
+          {campusLife.map((item, idx) => (
+            <Card
+              key={idx}
+              title={item.title}
+              desc={item.desc}
+              href={item.href}
+              image={item.img}
+              ctaText="Learn More"
+              imageHeight="180px"
+              bg="#E2E8F0"
+              target="_self"
+              ariaLabel={item.title}
+              style={{ width: "100%", maxWidth: 320 }}
+            />
+          ))}
+        </div>
+      </section>
 
       {/* ===================== FACILITIES ===================== */}
       <section className="bg-gray-50 border-t">
