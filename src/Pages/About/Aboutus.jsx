@@ -2,7 +2,7 @@
 import React, { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { ChevronRight, Calendar } from "lucide-react";
-import BookCard from "../../components/Cards/BookCard";
+import BookCard from "../../components/Cards/Bookcard";
 import Card from "../../components/Cards/Programcards"; // <-- new import for reusable card
 
 export default function AboutUniversity() {
