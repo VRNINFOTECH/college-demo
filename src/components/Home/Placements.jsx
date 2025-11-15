@@ -47,9 +47,10 @@ export default function Placements() {
     "https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg",
     "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg",
     "https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg",
-    "https://upload.wikimedia.org/wikipedia/commons/f/fa/Google_logo.svg",
-    "https://upload.wikimedia.org/wikipedia/commons/0/0c/Infosys_logo.svg",
-    "https://upload.wikimedia.org/wikipedia/commons/9/99/Wipro_Logo.svg",
+     "https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg",
+    "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg",
+    "https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg",
+  
   ];
 
   return (

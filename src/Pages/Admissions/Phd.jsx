@@ -1,30 +1,44 @@
-import React, { useState } from "react";
-import { 
-  GraduationCap, 
-  Calendar, 
-  CheckCircle, 
-  FileText, 
-  Award,
-  Users,
-  BookOpen,
+// src/Pages/Admissions/PGPrograms.jsx
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import {
+  GraduationCap,
   Clock,
-  Download,
+  ExternalLink,
   ChevronRight,
-  AlertCircle,
+  CheckCircle,
   Mail,
   Phone,
   MapPin,
+  Download,
+  Award,
   Microscope,
-  Globe,
+  Users,
   TrendingUp,
-  Lightbulb,
-  DollarSign
+  BookOpen,
+  DollarSign,
+  Globe,
+  Lightbulb
 } from "lucide-react";
 
-const RESEARCH_AREAS = [
+/**
+ * PG Programs page (modal z-index + viewport-safe height fix)
+ *
+ * - Modal now uses z-[99999] to sit above fixed navbars.
+ * - Modal content maxHeight respects a CSS variable --navbar-height (default 96px).
+ *   If your navbar is taller/shorter, set --navbar-height on :root or the page container.
+ * - Body scroll locked while modal open.
+ */
+
+/* ---------- programs (sample, shaped for the UI) ---------- */
+const PROGRAMS = [
   {
-    department: "Computer Science & Engineering",
-    areas: [
+    id: "phd-cse",
+    title: "Ph.D — Computer Science & Engineering",
+    duration: "3-5 years",
+    seats: "8 seats",
+    eligibility: "Master's degree in CSE/IT or related field with 55% (50% SC/ST) and valid GATE/NET/SLET or University entrance test",
+    specializations: [
       "Artificial Intelligence & Machine Learning",
       "Data Science & Big Data Analytics",
       "Cyber Security & Blockchain",
@@ -34,8 +48,12 @@ const RESEARCH_AREAS = [
     ]
   },
   {
-    department: "Electronics & Communication",
-    areas: [
+    id: "phd-ece",
+    title: "Ph.D — Electronics & Communication Engineering",
+    duration: "3-5 years",
+    seats: "6 seats",
+    eligibility: "Master's degree in ECE/Electronics with 55% (50% SC/ST) and valid GATE/NET/SLET or University entrance test",
+    specializations: [
       "VLSI Design & Embedded Systems",
       "Wireless Communication",
       "Signal Processing",
@@ -44,8 +62,12 @@ const RESEARCH_AREAS = [
     ]
   },
   {
-    department: "Mechanical Engineering",
-    areas: [
+    id: "phd-mech",
+    title: "Ph.D — Mechanical Engineering",
+    duration: "3-5 years",
+    seats: "5 seats",
+    eligibility: "Master's degree in Mechanical/Production/Industrial Engineering with 55% (50% SC/ST)",
+    specializations: [
       "Thermal Engineering",
       "Manufacturing & Automation",
       "Robotics & Mechatronics",
@@ -54,8 +76,12 @@ const RESEARCH_AREAS = [
     ]
   },
   {
-    department: "Civil Engineering",
-    areas: [
+    id: "phd-civil",
+    title: "Ph.D — Civil Engineering",
+    duration: "3-5 years",
+    seats: "5 seats",
+    eligibility: "Master's degree in Civil/Structural/Environmental Engineering with 55% (50% SC/ST)",
+    specializations: [
       "Structural Engineering",
       "Environmental Engineering",
       "Geotechnical Engineering",
@@ -64,23 +90,17 @@ const RESEARCH_AREAS = [
     ]
   },
   {
-    department: "Management",
-    areas: [
+    id: "phd-mgmt",
+    title: "Ph.D — Management",
+    duration: "3-5 years",
+    seats: "10 seats",
+    eligibility: "Master's degree in Management/Commerce/Economics with 55% (50% SC/ST)",
+    specializations: [
       "Strategic Management",
       "Financial Management",
       "Marketing Analytics",
       "Operations Research",
       "Organizational Behavior"
-    ]
-  },
-  {
-    department: "Basic Sciences",
-    areas: [
-      "Quantum Physics",
-      "Organic Chemistry",
-      "Applied Mathematics",
-      "Computational Biology",
-      "Material Science"
     ]
   }
 ];
@@ -187,402 +207,238 @@ const FACILITIES = [
   }
 ];
 
-const FAQS = [
-  {
-    question: "What is the duration of the Ph.D program?",
-    answer: "The minimum duration is 3 years for full-time and 4 years for part-time Ph.D programs. Maximum duration is 6 years for full-time and 7 years for part-time candidates."
-  },
-  {
-    question: "Is coursework mandatory?",
-    answer: "Yes, first-year Ph.D scholars must complete coursework (minimum 8 credits) covering research methodology, subject-specific courses, and technical writing."
-  },
-  {
-    question: "Can I pursue Ph.D while working?",
-    answer: "Yes, you can enroll in the part-time Ph.D program which requires you to work with approval from your employer and attend campus regularly on designated days."
-  },
-  {
-    question: "What are the publication requirements?",
-    answer: "Scholars must publish at least 2 papers in Scopus/SCI/UGC-approved journals before thesis submission. Conference publications are additional requirements."
-  },
-  {
-    question: "Is hostel accommodation available?",
-    answer: "Yes, on-campus hostel accommodation is available for full-time Ph.D scholars on a first-come, first-served basis at subsidized rates."
-  },
-  {
-    question: "Can I change my research supervisor?",
-    answer: "Yes, with valid reasons and approval from the Research Advisory Committee, you can request a change of supervisor after completing 6 months."
-  }
-];
+export default function PGPrograms() {
+  const [selected, setSelected] = useState(null);
 
-export default function PhDAdmissions() {
-  const [expandedFaq, setExpandedFaq] = useState(null);
-  const [selectedDept, setSelectedDept] = useState(null);
+  // lock body scroll when modal open
+  useLockBodyScroll(Boolean(selected));
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-indigo-50/30">
-      {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-purple-600 via-indigo-600 to-blue-700 text-white pt-28 pb-20 overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-white rounded-full blur-3xl"></div>
-          <div className="absolute bottom-10 right-20 w-96 h-96 bg-pink-300 rounded-full blur-3xl"></div>
-        </div>
-
-        <div className="relative max-w-7xl mx-auto px-4">
-          <div className="flex items-center gap-2 mb-6">
-            <GraduationCap size={32} />
-            <span className="text-lg font-semibold">Doctoral (Ph.D) Admissions 2025-26</span>
-          </div>
-
-          <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-4">
-            Shape the Future Through Research
-          </h1>
-          <p className="text-lg md:text-xl text-indigo-100 max-w-3xl mb-8">
-            Join our community of researchers and contribute to cutting-edge innovations
-          </p>
-
-          {/* Quick Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20">
-              <div className="text-3xl font-bold mb-1">50+</div>
-              <div className="text-sm text-indigo-100">Research Areas</div>
-            </div>
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20">
-              <div className="text-3xl font-bold mb-1">100+</div>
-              <div className="text-sm text-indigo-100">Ph.D Scholars</div>
-            </div>
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20">
-              <div className="text-3xl font-bold mb-1">₹31K</div>
-              <div className="text-sm text-indigo-100">Monthly Fellowship</div>
-            </div>
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20">
-              <div className="text-3xl font-bold mb-1">30+</div>
-              <div className="text-sm text-indigo-100">Global Partners</div>
-            </div>
-          </div>
-
-          {/* CTA Buttons */}
-          <div className="flex flex-wrap gap-4">
-            <a 
-              href="#apply"
-              className="bg-white text-indigo-700 hover:bg-indigo-50 px-8 py-4 rounded-xl font-bold shadow-xl hover:shadow-2xl transition-all hover:scale-105 flex items-center gap-2"
-            >
-              Apply for Ph.D
-              <ChevronRight size={20} />
-            </a>
-            <button className="bg-white/10 hover:bg-white/20 backdrop-blur-sm border-2 border-white/30 px-8 py-4 rounded-xl font-semibold flex items-center gap-2 transition-all">
-              <Download size={20} />
-              Research Guidelines
-            </button>
-            <button className="bg-white/10 hover:bg-white/20 backdrop-blur-sm border-2 border-white/30 px-8 py-4 rounded-xl font-semibold flex items-center gap-2 transition-all">
-              <Users size={20} />
-              Meet Our Scholars
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* Research Areas */}
-      <section className="max-w-7xl mx-auto px-4 py-16">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
-            Research Areas
-          </h2>
-          <p className="text-gray-600 text-lg">Explore diverse fields of doctoral research</p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {RESEARCH_AREAS.map((dept, index) => (
-            <div 
-              key={index}
-              className="bg-white rounded-2xl border-2 border-gray-200 hover:border-indigo-300 shadow-lg hover:shadow-xl transition-all overflow-hidden group hover:-translate-y-1"
-            >
-              <div className="bg-gradient-to-br from-indigo-600 to-purple-600 p-6 text-white">
-                <div className="flex items-center gap-3 mb-2">
-                  <Microscope size={24} />
-                  <h3 className="text-xl font-bold">{dept.department}</h3>
-                </div>
-                <p className="text-sm text-indigo-100">{dept.areas.length} research areas</p>
-              </div>
-
-              <div className="p-6">
-                <div className="space-y-2">
-                  {dept.areas.slice(0, 3).map((area, idx) => (
-                    <div key={idx} className="flex items-start gap-2 text-sm text-gray-700">
-                      <ChevronRight size={16} className="text-indigo-600 flex-shrink-0 mt-0.5" />
-                      <span>{area}</span>
-                    </div>
-                  ))}
-                  {dept.areas.length > 3 && (
-                    <button 
-                      onClick={() => setSelectedDept(dept)}
-                      className="text-sm text-indigo-600 hover:underline font-medium flex items-center gap-1 mt-2"
-                    >
-                      View all {dept.areas.length} areas
-                      <ChevronRight size={14} />
-                    </button>
-                  )}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Eligibility */}
-      <section className="max-w-7xl mx-auto px-4 py-16 bg-white/50 backdrop-blur-sm">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
-            Eligibility Criteria
-          </h2>
-          <p className="text-gray-600 text-lg">Check if you qualify for doctoral admission</p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-          {ELIGIBILITY.map((item, index) => (
-            <div key={index} className="bg-white rounded-2xl border-2 border-gray-200 shadow-lg p-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-                <Award className="text-indigo-600" size={28} />
-                {item.category}
-              </h3>
-              <ul className="space-y-4">
-                {item.requirements.map((req, idx) => (
-                  <li key={idx} className="flex items-start gap-3">
-                    <CheckCircle className="text-green-600 flex-shrink-0 mt-0.5" size={20} />
-                    <span className="text-gray-700">{req}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Financial Support */}
-      <section className="max-w-7xl mx-auto px-4 py-16">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
-            Financial Support & Fellowships
-          </h2>
-          <p className="text-gray-600 text-lg">Multiple funding options for your research journey</p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {FINANCIAL_SUPPORT.map((support, index) => {
-            const Icon = support.icon;
-            return (
-              <div 
-                key={index}
-                className="bg-white rounded-2xl border-2 border-gray-200 hover:border-indigo-300 shadow-lg hover:shadow-xl transition-all p-6"
-              >
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center text-white shadow-lg">
-                    <Icon size={28} />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-xl font-bold text-gray-900 mb-1">{support.type}</h3>
-                    <p className="text-2xl font-bold text-indigo-600 mb-2">{support.amount}</p>
-                    <p className="text-sm text-gray-600">{support.details}</p>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        <div className="mt-8 bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl border-2 border-green-200 p-6">
-          <div className="flex items-start gap-3">
-            <CheckCircle className="text-green-600 flex-shrink-0 mt-1" size={24} />
+    <div className="min-h-screen bg-gray-50">
+      {/* HERO - added dark overlay via linear-gradient for improved contrast */}
+      <section
+        className="relative pt-28 pb-16"
+        aria-labelledby="pg-hero-heading"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url('https://imgs.search.brave.com/EtX3FW-CsBHxv9NEkopv-wxjL0x_x76cetJ4GbFvqRc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMTQ2/MTYzMTMzMS9waG90/by9ncm91cC1vZi15/b3VuZy1pbmRpYW4t/c3R1ZGVudHMtYnVz/eS1vbi1ieS1kaXNj/dXNzaW5nLW9mLXN5/bGxhYnVzLWR1cmlu/Zy1leGFtaW5hdGlv/bi1hdC5qcGc_Yj0x/JnM9NjEyeDYxMiZ3/PTAmaz0yMCZjPU5U/THlHUlZqX0hHemJJ/aGtGQlpwUUtWWkti/SkkzbVhjQ0pvc0w4/aWgwSWM9')",
+          backgroundPosition: "center",
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
+        <div className="relative max-w-7xl mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
             <div>
-              <p className="font-bold text-gray-900 mb-2">Additional Benefits</p>
-              <p className="text-gray-700">Conference travel grants • Publication support • International exposure programs • Health insurance • Library & computing resources</p>
+              <div className="flex items-center gap-3 mb-3">
+                <GraduationCap className="w-6 h-6 text-white" />
+                <span className="text-sm font-medium text-white">Phd Admissions 2025-26</span>
+              </div>
+
+              <h1 id="pg-hero-heading" className="text-4xl md:text-5xl font-extrabold text-white">
+                Advance Your Career with Specialized Phd Programs
+              </h1>
+
+              <p className="mt-4 max-w-xl text-white/90 text-lg">
+                Transform your expertise with our industry-focused postgraduate programs. View specializations and apply online.
+              </p>
+
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Link to="/apply" className="inline-flex items-center gap-2 bg-indigo-600 text-white px-5 py-3 font-semibold hover:bg-indigo-700 transition">
+                  Apply Now <ChevronRight className="w-4 h-4" />
+                </Link>
+
+                <a href="#programs" className="inline-flex items-center gap-2 border border-white/30 text-white/90 px-5 py-3 font-semibold hover:bg-white/5 transition">
+                  Browse Programs
+                </a>
+              </div>
             </div>
+
           </div>
         </div>
       </section>
 
-      {/* Research Facilities */}
-      <section className="max-w-7xl mx-auto px-4 py-16 bg-white/50 backdrop-blur-sm">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
-            Research Facilities
-          </h2>
-          <p className="text-gray-600 text-lg">World-class infrastructure for your research</p>
+      {/* Programs grid */}
+      <section id="programs" className="max-w-7xl mx-auto px-6 py-12">
+        <div className="mb-6">
+          <h2 className="text-3xl font-bold text-gray-900">Programs Offered</h2>
+          <p className="text-gray-600 mt-2">Click View Details to see the full list of specializations and eligibility.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {FACILITIES.map((facility, index) => {
-            const Icon = facility.icon;
-            return (
-              <div 
-                key={index}
-                className="bg-white rounded-2xl border-2 border-gray-200 hover:border-indigo-300 shadow-lg hover:shadow-xl transition-all p-6 hover:-translate-y-1"
-              >
-                <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 text-white mb-4 shadow-lg">
-                  <Icon size={28} />
+          {PROGRAMS.map((p) => (
+            <article key={p.id} className="bg-white border border-gray-200 shadow-sm overflow-hidden">
+              {/* image if provided, else icon block */}
+              {p.image ? (
+                <div className="h-40 w-full overflow-hidden">
+                  <img src={p.image} alt={p.title} className="w-full h-full object-cover" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">{facility.title}</h3>
-                <p className="text-gray-600">{facility.description}</p>
-              </div>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* Timeline */}
-      <section className="max-w-7xl mx-auto px-4 py-16">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
-            Admission Timeline
-          </h2>
-          <p className="text-gray-600 text-lg">Key dates for doctoral admissions</p>
-        </div>
-
-        <div className="max-w-3xl mx-auto space-y-4">
-          {TIMELINE.map((item, index) => (
-            <div key={index} className="flex items-center gap-4">
-              <div className={`flex items-center justify-center w-12 h-12 rounded-full flex-shrink-0 ${
-                item.status === 'current' ? 'bg-indigo-600 ring-4 ring-indigo-200' : 'bg-gray-300'
-              }`}>
-                {item.status === 'current' ? (
-                  <Clock size={24} className="text-white" />
-                ) : (
-                  <div className="w-3 h-3 bg-white rounded-full"></div>
-                )}
-              </div>
-
-              <div className="flex-1 bg-white rounded-xl p-5 shadow-lg border-2 border-gray-200 hover:border-indigo-300 transition-all">
-                <div className="flex items-center gap-2 mb-1">
-                  <Calendar size={16} className="text-indigo-600" />
-                  <span className="text-sm font-semibold text-indigo-600">{item.date}</span>
-                </div>
-                <h3 className="font-bold text-gray-900">{item.event}</h3>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Documents */}
-      <section className="max-w-7xl mx-auto px-4 py-16 bg-white/50 backdrop-blur-sm">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
-            Required Documents
-          </h2>
-          <p className="text-gray-600 text-lg">Prepare these documents for your application</p>
-        </div>
-
-        <div className="max-w-4xl mx-auto bg-white rounded-2xl border-2 border-gray-200 shadow-xl p-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {DOCUMENTS.map((doc, index) => (
-              <div key={index} className="flex items-start gap-3 p-4 rounded-xl bg-gray-50 hover:bg-indigo-50 transition-all">
-                <CheckCircle className="text-green-600 flex-shrink-0 mt-0.5" size={20} />
-                <span className="text-gray-700 font-medium">{doc}</span>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-6 p-4 bg-indigo-50 rounded-xl border border-indigo-200">
-            <div className="flex items-start gap-3">
-              <AlertCircle className="text-indigo-600 flex-shrink-0 mt-0.5" size={20} />
-              <p className="text-sm text-gray-700">
-                <span className="font-semibold">Important:</span> Research proposal should clearly define objectives, methodology, expected outcomes, and bibliography (3-5 pages).
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* FAQs */}
-      <section className="max-w-7xl mx-auto px-4 py-16">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
-            Frequently Asked Questions
-          </h2>
-        </div>
-
-        <div className="max-w-3xl mx-auto space-y-4">
-          {FAQS.map((faq, index) => (
-            <div key={index} className="bg-white rounded-2xl border-2 border-gray-200 overflow-hidden shadow-lg">
-              <button
-                onClick={() => setExpandedFaq(expandedFaq === index ? null : index)}
-                className="w-full px-6 py-5 flex items-center justify-between hover:bg-gray-50 transition-colors"
-              >
-                <span className="font-semibold text-gray-900 text-left">{faq.question}</span>
-                <ChevronRight 
-                  className={`text-indigo-600 flex-shrink-0 transition-transform ${expandedFaq === index ? 'rotate-90' : ''}`} 
-                  size={24} 
-                />
-              </button>
-              {expandedFaq === index && (
-                <div className="px-6 pb-5 text-gray-700 border-t">
-                  <p className="pt-4">{faq.answer}</p>
+              ) : (
+                <div className="h-40 w-full flex items-center justify-center bg-gray-100">
+                  <GraduationCap className="w-12 h-12 text-gray-400" />
                 </div>
               )}
-            </div>
+
+              <div className="p-5">
+                <h3 className="text-lg font-semibold text-gray-900">{p.title}</h3>
+
+                <div className="mt-2 text-sm text-gray-600">
+                  <div className="flex items-center gap-3">
+                    <Clock className="w-4 h-4 text-gray-400" />
+                    <span>{p.duration}</span>
+                    <span className="mx-2 text-gray-300">•</span>
+                    <span>{p.seats}</span>
+                  </div>
+
+                  <div className="mt-2">
+                    <strong className="text-sm text-gray-700">Eligibility:</strong>{" "}
+                    <span className="text-sm text-gray-600">{p.eligibility}</span>
+                  </div>
+                </div>
+
+                <div className="mt-4">
+                  <p className="text-sm font-medium text-gray-700 mb-2">Specializations</p>
+
+                  <ul className="grid grid-cols-1 gap-1 text-sm text-gray-600 list-none">
+                    {p.specializations.slice(0, 5).map((s, idx) => (
+                      <li key={idx} className="flex items-start gap-2">
+                        <ChevronRight className="w-4 h-4 text-indigo-600 mt-1 flex-shrink-0" />
+                        <span className="leading-tight">{s}</span>
+                      </li>
+                    ))}
+                    {p.specializations.length > 5 && (
+                      <li className="mt-2">
+                        <button
+                          onClick={() => setSelected(p)}
+                          className="text-indigo-600 text-sm hover:underline font-medium"
+                        >
+                          +{p.specializations.length - 5} more
+                        </button>
+                      </li>
+                    )}
+                  </ul>
+                </div>
+
+                <div className="mt-5 flex gap-3">
+                  <button
+                    onClick={() => setSelected(p)}
+                    className="flex-1 inline-flex items-center justify-center gap-2 border border-indigo-600 text-indigo-700 px-4 py-2 text-sm font-semibold hover:bg-indigo-50 transition"
+                  >
+                    View Details <ExternalLink className="w-4 h-4" />
+                  </button>
+
+                  <Link to="/apply" className="inline-flex items-center justify-center gap-2 bg-indigo-600 text-white px-4 py-2 text-sm font-semibold hover:bg-indigo-700 transition">
+                    Apply Now
+                  </Link>
+                </div>
+              </div>
+            </article>
           ))}
         </div>
       </section>
 
-      {/* Contact */}
-      <section className="max-w-7xl mx-auto px-4 py-16 bg-white/50 backdrop-blur-sm">
-        <div className="bg-gradient-to-br  from-purple-600 via-indigo-600 to-blue-700 rounded-3xl p-8 md:p-12 text-white shadow-2xl">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl md:text-4xl font-bold mb-3">Contact Research Office</h2>
-            <p className="text-indigo-100 text-lg">We're here to guide you through your doctoral journey</p>
+      {/* CTA strip */}
+      <section className="max-w-7xl mx-auto px-6 pb-20">
+        <div className="bg-white border border-gray-200 p-6 shadow-sm flex flex-col md:flex-row items-center gap-6">
+          <div className="flex-1">
+            <h3 className="text-xl font-bold">Need assistance with PG admissions?</h3>
+            <p className="text-gray-600 mt-1">Contact our admissions team for program guidance and application support.</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-            <a href="mailto:phd.admissions@university.edu" className="bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-2xl p-6 transition-all border border-white/20">
-              <Mail className="mb-3" size={32} />
-              <p className="font-semibold mb-1">Email</p>
-              <p className="text-sm text-indigo-100">phd.admissions@university.edu</p>
+          <div className="flex gap-3">
+            <a href="mailto:pg.admissions@university.edu" className="inline-flex items-center gap-2 border border-gray-200 px-4 py-2 text-sm">
+              <Mail className="w-4 h-4" /> Email
             </a>
-
-            <a href="tel:+911234567892" className="bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-2xl p-6 transition-all border border-white/20">
-              <Phone className="mb-3" size={32} />
-              <p className="font-semibold mb-1">Phone</p>
-              <p className="text-sm text-indigo-100">+91 123 456 7892</p>
+            <a href="tel:+911234567891" className="inline-flex items-center gap-2 border border-gray-200 px-4 py-2 text-sm">
+              <Phone className="w-4 h-4" /> Call
             </a>
-
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-              <MapPin className="mb-3" size={32} />
-              <p className="font-semibold mb-1">Office</p>
-              <p className="text-sm text-indigo-100">Research Scholar Section</p>
-            </div>
+            <a href="/brochure.pdf" className="inline-flex items-center gap-2 border border-gray-200 px-4 py-2 text-sm">
+              <Download className="w-4 h-4" /> Brochure
+            </a>
           </div>
         </div>
       </section>
 
-      {/* Department Modal */}
-      {selectedDept && (
-        <div 
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-          onClick={() => setSelectedDept(null)}
-        >
-          <div 
-            className="bg-white rounded-3xl max-w-2xl w-full max-h-[80vh] overflow-y-auto shadow-2xl p-8"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-2xl font-bold text-gray-900">{selectedDept.department}</h3>
-              <button onClick={() => setSelectedDept(null)} className="text-gray-400 hover:text-gray-600">
-                <ChevronRight size={24} className="rotate-90" />
-              </button>
-            </div>
+      {/* Program modal */}
+      {selected && <ProgramModal program={selected} onClose={() => setSelected(null)} />}
+    </div>
+  );
+}
 
-            <p className="text-gray-600 mb-6">Research Areas Available:</p>
+/* ---------- small helpers ---------- */
 
-            <div className="space-y-2">
-              {selectedDept.areas.map((area, idx) => (
-                <div key={idx} className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg">
-                  <Microscope className="text-indigo-600" size={18} />
-                  <span className="text-gray-700">{area}</span>
-                </div>
-              ))}
-            </div>
+
+/* ---------- lock body scroll hook ---------- */
+function useLockBodyScroll(enabled) {
+  useEffect(() => {
+    if (!enabled) return;
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, [enabled]);
+}
+
+/* ---------- ProgramModal component (z-index + viewport safe) ---------- */
+function ProgramModal({ program, onClose }) {
+  return (
+    <div
+      className="fixed inset-0 z-[99999] flex items-start md:items-center justify-center p-4 bg-black/60"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="program-modal-title"
+    >
+      <div
+        className="bg-white w-full max-w-2xl shadow-lg border border-gray-200 overflow-auto"
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          // Keep modal visible below any fixed navbar; override --navbar-height in CSS if needed.
+          maxHeight: "calc(100vh - var(--navbar-height, 96px))",
+          borderRadius: 8,
+        }}
+      >
+        <div className="p-6 border-b flex items-start justify-between">
+          <div>
+            <h3 id="program-modal-title" className="text-xl font-bold">
+              {program.title}
+            </h3>
+            <p className="text-sm text-gray-600 mt-1">
+              {program.duration} • {program.seats}
+            </p>
+          </div>
+          <button onClick={onClose} className="text-gray-500 px-2 py-1" aria-label="Close modal">
+            Close
+          </button>
+        </div>
+
+        <div className="p-6">
+          <h4 className="font-semibold text-gray-800 mb-3">Specializations</h4>
+          <ul className="grid grid-cols-1 gap-2 text-gray-700">
+            {program.specializations.map((s, i) => (
+              <li key={i} className="flex items-start gap-3 p-3 bg-gray-50">
+                <CheckCircle className="text-green-600 mt-1" />
+                <span>{s}</span>
+              </li>
+            ))}
+          </ul>
+
+          <div className="mt-6">
+            <h4 className="font-semibold text-gray-800">Eligibility</h4>
+            <p className="text-gray-700 mt-2">{program.eligibility}</p>
+          </div>
+
+          <div className="mt-6 flex gap-3">
+            <Link to="/apply" className="inline-flex items-center gap-2 bg-indigo-600 text-white px-4 py-2 text-sm font-semibold">
+              Apply Now <ChevronRight className="w-4 h-4" />
+            </Link>
+            <a href="/brochure.pdf" className="inline-flex items-center gap-2 border border-gray-200 px-4 py-2 text-sm">
+              Download Brochure <Download className="w-4 h-4" />
+            </a>
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 }

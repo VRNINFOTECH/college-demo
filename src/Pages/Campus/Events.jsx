@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 
 const ALL_EVENTS = [
+  // ... (kept same as your array)
   {
     id: "genai-talk",
     title: "Tech Talk: GenAI in the Enterprise",
@@ -24,7 +25,7 @@ const ALL_EVENTS = [
     venue: "Auditorium",
     desc:
       "Industry leaders discuss adoption patterns, case studies, and career-ready skills in GenAI.",
-    img: "https://images.unsplash.com/photo-1526378723347-9f470168c45b?auto=format&fit=crop&w=1400&q=80",
+    img: "https://imgs.search.brave.com/Wfy7TQm0nhisLjvFej0PZtorBZ7yxikGq_KxaH1ed4A/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTQ5/OTY3MDMzNy9waG90/by9kaXZlcnNlLWF1/ZGllbmNlLWxpc3Rl/bmluZy1jbG9zZWx5/LXRvLWxpdmVseS1w/YW5lbC1kaXNjdXNz/aW9uLWF0LXRlY2gt/Y29uZmVyZW5jZS5q/cGc_cz02MTJ4NjEy/Jnc9MCZrPTIwJmM9/Y2RvNkYxMy1CdHJQ/R3lWdWtRNUlmRGst/akUxanl5aVVUZ205/bXZBUE5nST0",
     link: "#",
     register: "#",
   },
@@ -38,7 +39,7 @@ const ALL_EVENTS = [
     venue: "Central Grounds",
     desc:
       "Two-day celebration of music, dance, food stalls and inter-college competitions.",
-    img: "https://images.unsplash.com/photo-1506152983158-7f2f7d5c6e8b?auto=format&fit=crop&w=1400&q=80",
+    img: "https://imgs.search.brave.com/xIidVGnZcJTa0c4zRGsEye_Z-7y9jxvjK0OkSp6O8Gg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvNjYw/NTc0Njg4L3Bob3Rv/L25ldy1kZWxoaS1p/bmRpYS1zdWZpLXNp/bmdlci1kaHJ1di1z/YW5nYXJpLXBlcmZv/cm1zLWR1cmluZy1h/LWthbWFsYS1uZWhy/dS1jb2xsZWdlLXMt/YW5udWFsLmpwZz9z/PTYxMng2MTImdz0w/Jms9MjAmYz1Yb3ZK/RHVSU0NfNEhhMDZz/RzhDWUpYMzh3RHVl/cWpFRy1qc2pGLXRi/Z3J3PQ",
     link: "#",
     register: "#",
   },
@@ -52,7 +53,7 @@ const ALL_EVENTS = [
     venue: "Innovation Lab",
     desc:
       "Collaborative hack with problem statements from social-impact partners and startups.",
-    img: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1400&q=80",
+    img: "https://imgs.search.brave.com/uBealPcSikIF1gg5uH5RUVV_rvWEZ7X8tGrRk0Wawj0/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA2Lzc3LzEyLzQw/LzM2MF9GXzY3NzEy/NDA0M19HVlVuclk3/ejJUOU12eW1EdU9j/ek1Cc0NyN1UzaVBx/Sy5qcGc",
     link: "#",
     register: "#",
   },
@@ -66,7 +67,7 @@ const ALL_EVENTS = [
     venue: "Open Air Stage",
     desc:
       "Popular indie bands and student ensembles perform live — food trucks & merch stalls on site.",
-    img: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&w=1400&q=80",
+    img: "https://imgs.search.brave.com/h96R2FC3-7MQlc6im_w7bGmP_2A4-JlQuTIctH7RS50/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTEy/NTY4MjM0Ni9waG90/by9mZXN0aXZhbC1m/cmllbmRzLmpwZz9z/PTYxMng2MTImdz0w/Jms9MjAmYz13LVpf/Q29NMFl6N0xfeW5U/bTliMGR2STBKWnBV/WVFuQVROVU1oVWxv/OFlBPQ",
     link: "#",
     register: "#",
   },
@@ -107,7 +108,7 @@ const ALL_EVENTS = [
     venue: "Café Terrace",
     desc:
       "Student poets, musicians and storytellers perform — sign-ups on arrival (first-come).",
-    img: "https://images.unsplash.com/photo-1544785349-c4a5301826fd?auto=format&fit=crop&w=1400&q=80",
+    img: "https://imgs.search.brave.com/A4cPNrgN-RHLwUOrxCyUbQk4x65MDfPk4o0rywfP6fA/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZi1p/bWctYS1pbi50b3Nz/aHViLmNvbS9saW5n/by9pdG5lL2ltYWdl/cy9zdG9yeS8yMDI1/MDgvNjg5MDc2ZTA1/NGQzMC1zYW1heS1y/YWluYXMtdHJhbnNm/b3JtYXRpb24tZnJv/bS1ib2xkLXJvYXN0/cy10by1lbXBhdGhl/dGljLWNvbWVkeS0w/NDAxMTU0OTMtMTZ4/OS5qcGVnP3NpemU9/OTQ4OjUzMw",
     link: "#",
     register: "#",
   },
@@ -136,6 +137,53 @@ export default function Events() {
   return (
     <div className="pt-24 pb-16 bg-white text-gray-900 min-h-screen">
       <main className="max-w-7xl mx-auto px-6">
+        {/* Add styles for glass and hover effects */}
+        <style>{`
+          /* glass-card base used for event cards, side widgets, tiles */
+          .glass-card {
+            background: rgba(255,255,255,0.72);
+            border: 1px solid rgba(255,255,255,0.6);
+            backdrop-filter: blur(8px) saturate(120%);
+            -webkit-backdrop-filter: blur(8px) saturate(120%);
+          }
+
+          /* subtle darker glass option for image overlays */
+          .glass-card-strong {
+            background: rgba(255,255,255,0.85);
+            border: 1px solid rgba(2,6,23,0.06);
+            backdrop-filter: blur(10px) saturate(120%);
+            -webkit-backdrop-filter: blur(10px) saturate(120%);
+          }
+
+          /* hover animations */
+          .hover-lift {
+            transition: transform 280ms cubic-bezier(.2,.9,.2,1), box-shadow 280ms;
+            will-change: transform;
+          }
+          .hover-lift:hover {
+            transform: translateY(-6px) scale(1.01);
+            box-shadow: 0 18px 40px rgba(12,24,63,0.12);
+          }
+
+          /* image overlay scale on hover */
+          .img-zoom {
+            transition: transform 550ms cubic-bezier(.2,.9,.2,1);
+            will-change: transform;
+          }
+          .img-zoom:hover { transform: scale(1.06); }
+
+          /* subtle glow on action buttons */
+          .btn-glow {
+            transition: box-shadow 220ms, transform 220ms;
+          }
+          .btn-glow:hover { box-shadow: 0 10px 30px rgba(59,130,246,0.12); transform: translateY(-2px); }
+
+          /* reduce visual motion for those who prefer it */
+          @media (prefers-reduced-motion: reduce) {
+            .hover-lift, .img-zoom, .btn-glow { transition: none !important; transform: none !important; box-shadow: none !important; }
+          }
+        `}</style>
+
         {/* HERO */}
         <section className="relative mb-8">
           <div className="rounded-2xl bg-gradient-to-r from-blue-50 to-white p-6 md:p-8 shadow-sm border border-blue-100">
@@ -151,7 +199,7 @@ export default function Events() {
                 <div className="mt-4 flex flex-wrap gap-3">
                   <a
                     href="#submit"
-                    className="inline-flex items-center gap-2 rounded-xl bg-blue-700 px-4 py-2 text-white hover:bg-blue-800 transition"
+                    className="inline-flex items-center gap-2 rounded-xl bg-blue-700 px-4 py-2 text-white hover:bg-blue-800 transition btn-glow"
                   >
                     Submit an Event
                   </a>
@@ -168,8 +216,14 @@ export default function Events() {
               {/* small featured tiles */}
               <div className="w-full md:w-2/5 grid grid-cols-1 gap-3">
                 {featured.map((f) => (
-                  <article key={f.id} className="relative rounded-xl overflow-hidden border bg-white shadow-sm flex gap-3">
-                    <img src={f.img} alt={f.title} className="w-36 h-24 object-cover" loading="lazy" />
+                  <article
+                    key={f.id}
+                    className="relative rounded-xl overflow-hidden border bg-white shadow-sm flex gap-3 glass-card hover-lift"
+                  >
+                    <div className="w-36 h-24 overflow-hidden bg-gray-100">
+                      <img src={f.img} alt={f.title} className="w-full h-full object-cover img-zoom" loading="lazy" />
+                    </div>
+
                     <div className="p-3 flex-1">
                       <div className="text-sm font-semibold text-gray-900">{f.title}</div>
                       <div className="mt-1 text-xs text-gray-500 flex items-center gap-2">
@@ -220,10 +274,10 @@ export default function Events() {
               {filtered.map((e) => (
                 <article
                   key={e.id}
-                  className="rounded-2xl border border-gray-200 overflow-hidden bg-white shadow-sm flex flex-col md:flex-row"
+                  className="rounded-2xl border border-gray-200 overflow-hidden bg-white shadow-sm flex flex-col md:flex-row glass-card hover-lift"
                 >
-                  <div className="w-full md:w-56 h-44 md:h-auto overflow-hidden">
-                    <img src={e.img} alt={e.title} className="w-full h-full object-cover" loading="lazy" />
+                  <div className="w-full md:w-56 h-44 md:h-auto overflow-hidden bg-gray-100">
+                    <img src={e.img} alt={e.title} className="w-full h-full object-cover img-zoom" loading="lazy" />
                   </div>
 
                   <div className="p-5 flex-1 flex flex-col">
@@ -244,7 +298,7 @@ export default function Events() {
                     </div>
 
                     <div className="mt-4 flex items-center gap-3">
-                      <a href={e.link} className="inline-flex items-center gap-2 rounded-lg bg-blue-700 px-3 py-2 text-sm text-white hover:bg-blue-800">
+                      <a href={e.link} className="inline-flex items-center gap-2 rounded-lg bg-blue-700 px-3 py-2 text-sm text-white hover:bg-blue-800 btn-glow">
                         Details
                       </a>
                       <a href={e.register} className="inline-flex items-center gap-2 rounded-lg border border-gray-200 px-3 py-2 text-sm hover:bg-gray-50">
@@ -261,7 +315,7 @@ export default function Events() {
               ))}
 
               {filtered.length === 0 && (
-                <div className="rounded-2xl border bg-white p-8 text-center text-gray-600">No events found for your filters.</div>
+                <div className="rounded-2xl border bg-white p-8 text-center text-gray-600 glass-card">No events found for your filters.</div>
               )}
             </div>
           </div>
@@ -269,32 +323,29 @@ export default function Events() {
           {/* Right — sidebar */}
           <aside className="space-y-6">
             {/* Next 7 days (simple) */}
-            <div className="rounded-2xl border bg-white p-4 shadow-sm">
+            <div className="rounded-2xl border bg-white p-4 shadow-sm glass-card-strong hover-lift">
               <h4 className="text-sm font-semibold text-gray-900">Upcoming (next 7 days)</h4>
               <ul className="mt-3 space-y-3 text-sm text-gray-700">
-                {ALL_EVENTS.filter((e) => {
-                  // naive upcoming: any event with date >= today but within next 30 days for demo
-                  return true;
-                })
-                  .slice(0, 4)
-                  .map((e) => (
-                    <li key={e.id} className="flex items-center gap-3">
-                      <img src={e.img} alt={e.title} className="w-12 h-8 object-cover rounded-md" loading="lazy" />
-                      <div className="flex-1">
-                        <div className="font-medium text-gray-900 text-sm">{e.title}</div>
-                        <div className="text-xs text-gray-500">{e.displayDate} • {e.time}</div>
-                      </div>
-                    </li>
-                  ))}
+                {ALL_EVENTS.slice(0, 4).map((e) => (
+                  <li key={e.id} className="flex items-center gap-3">
+                    <div className="w-12 h-8 overflow-hidden rounded-md">
+                      <img src={e.img} alt={e.title} className="w-full h-full object-cover img-zoom" loading="lazy" />
+                    </div>
+                    <div className="flex-1">
+                      <div className="font-medium text-gray-900 text-sm">{e.title}</div>
+                      <div className="text-xs text-gray-500">{e.displayDate} • {e.time}</div>
+                    </div>
+                  </li>
+                ))}
               </ul>
             </div>
 
             {/* Calendar teaser */}
-            <div className="rounded-2xl border bg-white p-4 shadow-sm">
+            <div className="rounded-2xl border bg-white p-4 shadow-sm glass-card hover-lift">
               <h4 className="text-sm font-semibold text-gray-900">Calendar</h4>
               <p className="mt-2 text-sm text-gray-600">Sync upcoming events with your calendar for reminders.</p>
               <div className="mt-3 flex gap-2">
-                <a href="#" className="inline-flex items-center gap-2 rounded-lg bg-blue-700 px-3 py-2 text-sm text-white hover:bg-blue-800">
+                <a href="#" className="inline-flex items-center gap-2 rounded-lg bg-blue-700 px-3 py-2 text-sm text-white hover:bg-blue-800 btn-glow">
                   Add to Google Calendar
                 </a>
                 <a href="#" className="inline-flex items-center gap-2 rounded-lg border border-gray-200 px-3 py-2 text-sm hover:bg-gray-50">
@@ -304,7 +355,7 @@ export default function Events() {
             </div>
 
             {/* Featured categories / CTA */}
-            <div className="rounded-2xl border bg-white p-4 shadow-sm">
+            <div className="rounded-2xl border bg-white p-4 shadow-sm glass-card hover-lift">
               <h4 className="text-sm font-semibold text-gray-900">Popular</h4>
               <div className="mt-3 flex flex-wrap gap-2">
                 {["Concert", "Hackathon", "Workshop", "Festival", "Open Mic"].map((t) => (
@@ -327,7 +378,7 @@ export default function Events() {
 
         {/* Submit an event */}
         <section id="submit" className="mt-10">
-          <div className="rounded-3xl border border-gray-200 bg-white p-6 md:p-8 shadow-sm">
+          <div className="rounded-3xl border border-gray-200 bg-white p-6 md:p-8 shadow-sm glass-card hover-lift">
             <h2 className="text-lg md:text-xl font-semibold text-gray-900 mb-4">Submit an Event</h2>
             <form className="grid md:grid-cols-2 gap-4">
               <input className="rounded-lg border border-gray-300 px-3 py-2" placeholder="Event Title" />
@@ -347,7 +398,7 @@ export default function Events() {
               <textarea className="md:col-span-2 rounded-lg border border-gray-300 px-3 py-2" placeholder="Short description (max 300 chars)" rows={4} />
               <div className="md:col-span-2 flex justify-end gap-3">
                 <button type="reset" className="rounded-lg border border-gray-300 px-4 py-2 text-sm hover:bg-gray-50">Reset</button>
-                <button type="button" className="rounded-lg bg-blue-700 px-4 py-2 text-sm text-white hover:bg-blue-800">Submit</button>
+                <button type="button" className="rounded-lg bg-blue-700 px-4 py-2 text-sm text-white hover:bg-blue-800 btn-glow">Submit</button>
               </div>
             </form>
           </div>

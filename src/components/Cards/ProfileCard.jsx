@@ -4,6 +4,12 @@ import styled from "styled-components";
 
 /**
  * Optimized version — identical UI, better performance and accessibility.
+ *
+ * New prop:
+ *  - avatarSize (number) -> size in px for the avatar container (default: 72)
+ *
+ * Note: the img's width/height attributes are set to avatarSize * 2 (for high-DPI)
+ * and the avatar wrapper receives inline styles so you can request larger images.
  */
 export default function ProfileCard({
   name = "John Doe",
@@ -12,8 +18,10 @@ export default function ProfileCard({
   bio = "Short profile bio goes here. Keep it to 2–3 lines for best visual balance.",
   socials = {},
   className = "",
+  avatarSize = 72, // px (default small). Pass larger e.g. 160 for big cards.
 }) {
   const { instagram, twitter, linkedin, whatsapp } = socials || {};
+  const imgAttrSize = Math.round(avatarSize * 2); // for retina
 
   return (
     <StyledWrapper className={className}>
@@ -25,15 +33,24 @@ export default function ProfileCard({
       >
         {/* Top section */}
         <div className="top">
-          <div className="avatarWrap" aria-hidden="true">
+          <div
+            className="avatarWrap"
+            aria-hidden="true"
+            style={{
+              width: avatarSize + "px",
+              height: avatarSize + "px",
+              minWidth: avatarSize + "px",
+              minHeight: avatarSize + "px",
+            }}
+          >
             <img
               src={avatar}
               alt={`${name}'s portrait`}
               className="avatar"
               loading="lazy"
               decoding="async"
-              width="144"
-              height="144"
+              width={imgAttrSize}
+              height={imgAttrSize}
             />
           </div>
           <div className="identity">
@@ -136,9 +153,16 @@ const StyledWrapper = styled.div`
     will-change: transform, box-shadow;
   }
 
+  /* larger card when container forces width via className */
+  &.largeCard .card {
+    width: 100%;
+    min-height: 520px;
+  }
+
   .card:hover {
     transform: translateY(-6px);
-    box-shadow: 0 16px 40px rgba(2, 6, 23, 0.28);
+   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.28);
+
   }
 
   .card::before,
@@ -147,7 +171,8 @@ const StyledWrapper = styled.div`
     content: "";
     width: 22%;
     height: 22%;
-    background-color: var(--accent);
+    background-color:  rgba(0, 0, 0, 0.28);
+
     transition: all 0.5s ease;
     will-change: width, height, border-radius;
   }
@@ -198,7 +223,7 @@ const StyledWrapper = styled.div`
     font-size: 1.15rem;
     font-weight: 800;
     line-height: 1.1;
-    color: #fff;
+    color: black;
     margin: 0;
   }
   .role {

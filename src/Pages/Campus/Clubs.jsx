@@ -39,7 +39,7 @@ export default function Clubs() {
       meets: "Mon & Thu, 6–7 AM",
       venue: "Gym & Grounds",
       link: "#",
-      img: "https://images.unsplash.com/photo-1594737625785-c0f5d3d7d51a?auto=format&fit=crop&w=800&q=80",
+      img: "https://imgs.search.brave.com/B2i7nSQ6ARvZ-nN8Q1m1D7UhLsY6Me51ke8WRpb4Jr0/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pMC53/cC5jb20vd3d3LmNv/bGNoZXN0ZXIuYWMu/dWsvd3AtY29udGVu/dC91cGxvYWRzLzIw/MTgvMTAvR3ltLTEw/LmpwZz9maXQ9NTcw/LDQwMCZzc2w9MQ",
     },
     {
       name: "Photography Circle",
@@ -48,7 +48,7 @@ export default function Clubs() {
       meets: "Sat, 7–10 AM",
       venue: "Campus Loop",
       link: "#",
-      img: "https://images.unsplash.com/photo-1504203700686-0f3c5f1d5780?auto=format&fit=crop&w=800&q=80",
+      img: "https://imgs.search.brave.com/vEw4609HvB8z68n5fOdaQtdp2m0R6axmUQk1CC5uRmw/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTMx/MDc4MjEwNC9waG90/by9jYW1lcmFtYW4t/Y2FwdHVyaW5nLWlt/YWdlcy1vdXRkb29y/cy5qcGc_cz02MTJ4/NjEyJnc9MCZrPTIw/JmM9S3JnY2hwQzJr/Qy1La3RGOVhmOVUz/bGM3OFF1ZkVkd0Zn/cHljS2NQLWJkND0",
     },
     {
       name: "Drama & Theatre Club",
@@ -57,7 +57,7 @@ export default function Clubs() {
       meets: "Tue, 5–7 PM",
       venue: "Drama Hall, Cultural Wing",
       link: "#",
-      img: "https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?auto=format&fit=crop&w=800&q=80",
+      img: "https://imgs.search.brave.com/FvGjCA3S_2d1Uj-M1UCs98ZX0OQ3YBbsuSN2J6U2wP4/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTE2/NjA4NTc1NC9waG90/by9wcm9mZXNzaW9u/YWxzLWluLWNvbnZl/bnRpb24tY2VudGVy/LWR1cmluZy1zZW1p/bmFyLmpwZz9zPTYx/Mng2MTImdz0wJms9/MjAmYz1oZUtOZHF6/MGNEYnBrMTZTOWRv/SEpkMXUteXZpV2FY/dkQ4Y3RhTEJMS1VN/PQ",
     },
     {
       name: "Entrepreneurship Cell",

@@ -20,7 +20,7 @@ const DEPARTMENTS = [
     title: "Computer Science & Engineering",
     hod: "Dr. K. Venkat",
     img:
-      "https://images.unsplash.com/photo-1581091215367-6f2f9b4a8f2a?auto=format&fit=crop&w=1200&q=80",
+      "https://www.dr.du.ac.in/sites/default/files/2023-09/eco.jpg",
     facultyCount: 38,
     programs: ["B.Tech (CSE)", "M.Tech (CSE)", "PhD (CSE)", "Certificate: AI & ML"],
     email: "cse-dept@exampleuniversity.edu",
@@ -34,7 +34,7 @@ Labs include AI & ML, Systems, Networks, Security and Human-Computer Interaction
     title: "Electronics & Communication Engineering",
     hod: "Prof. R. Sinha",
     img:
-      "https://images.unsplash.com/photo-1532619675605-7a9b1a3a6f38?auto=format&fit=crop&w=1200&q=80",
+      "https://www.dr.du.ac.in/sites/default/files/2025-03/com.jpg",
     facultyCount: 30,
     programs: ["B.Tech (ECE)", "M.Tech (VLSI & Embedded)", "PhD (ECE)"],
     email: "ece-dept@exampleuniversity.edu",
@@ -48,7 +48,7 @@ Labs include AI & ML, Systems, Networks, Security and Human-Computer Interaction
     title: "Mechanical Engineering",
     hod: "Dr. S. Rao",
     img:
-      "https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=1200&q=80",
+      "https://www.dr.du.ac.in/sites/default/files/2025-07/faculty%20picture%20%281%29%20%281%29.jpg",
     facultyCount: 28,
     programs: ["B.Tech (Mechanical)", "M.Tech (Design)", "PhD (Mechanical)"],
     email: "mech-dept@exampleuniversity.edu",
@@ -62,7 +62,7 @@ Labs include AI & ML, Systems, Networks, Security and Human-Computer Interaction
     title: "Civil Engineering",
     hod: "Prof. N. Prakash",
     img:
-      "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1200&q=80",
+      "https://www.dr.du.ac.in/sites/default/files/2025-03/608A1535%20%281%29.jpg",
     facultyCount: 18,
     programs: ["B.Tech (Civil)", "M.Tech (Structural)", "PhD (Civil)"],
     email: "civil-dept@exampleuniversity.edu",
@@ -76,7 +76,7 @@ Labs include AI & ML, Systems, Networks, Security and Human-Computer Interaction
     title: "School of Business (MBA)",
     hod: "Dr. Meera Iyer",
     img:
-      "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1200&q=80",
+      "https://www.apce.in/img/mba1.png",
     facultyCount: 22,
     programs: ["MBA (Full-time)", "Executive MBA", "PhD (Management)"],
     email: "mba-dept@exampleuniversity.edu",
@@ -90,7 +90,7 @@ Labs include AI & ML, Systems, Networks, Security and Human-Computer Interaction
     title: "Sciences (Physics, Chemistry, Maths)",
     hod: "Dr. L. Thomas",
     img:
-      "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1200&q=80",
+      "https://www.shutterstock.com/image-photo/business-woman-her-staff-people-260nw-2024241281.jpg",
     facultyCount: 35,
     programs: ["BSc (Hons)", "MSc", "PhD"],
     email: "science-dept@exampleuniversity.edu",
@@ -104,7 +104,7 @@ Labs include AI & ML, Systems, Networks, Security and Human-Computer Interaction
     title: "School of Law",
     hod: "Prof. A. Gupta",
     img:
-      "https://images.unsplash.com/photo-1544717305-996b815c338c?auto=format&fit=crop&w=1200&q=80",
+      "https://www.spmlawcollege.ac.in/images/teaching-b1.jpg",
     facultyCount: 12,
     programs: ["LLB", "BA LLB", "LLM", "PhD (Law)"],
     email: "law-dept@exampleuniversity.edu",
@@ -118,7 +118,7 @@ Labs include AI & ML, Systems, Networks, Security and Human-Computer Interaction
     title: "School of Design & Fine Arts",
     hod: "Ms. R. Kapoor",
     img:
-      "https://images.unsplash.com/photo-1504198453319-5ce911bafcde?auto=format&fit=crop&w=1200&q=80",
+      "https://www.tjcomcollege.in/wp-content/uploads/2021/01/Pass-Port-2-030.jpg",
     facultyCount: 14,
     programs: ["B.Des", "M.Des", "Certificate: UX Design"],
     email: "design-dept@exampleuniversity.edu",

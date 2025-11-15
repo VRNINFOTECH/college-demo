@@ -5,6 +5,41 @@ import { Link } from "react-router-dom";
 import GlowCard from "../../components/Cards/Frontcard";
 import GlowApplyButton from "../../components/Button/FrontButton";
 
+/* ------------------------- Helper: Extract YouTube ID ------------------------- */
+function getYouTubeID(input) {
+  if (!input) return null;
+  const str = String(input).trim();
+
+  // If plain 11-char ID
+  if (/^[\w-]{11}$/.test(str)) return str;
+
+  try {
+    const u = new URL(str);
+    const host = u.hostname.replace("www.", "");
+
+    // youtu.be/VIDEO
+    if (host === "youtu.be") {
+      const id = u.pathname.split("/").filter(Boolean)[0];
+      if (/^[\w-]{11}$/.test(id)) return id;
+    }
+
+    // youtube.com/watch?v=VIDEO
+    const v = u.searchParams.get("v");
+    if (v && /^[\w-]{11}$/.test(v)) return v;
+
+    // youtube.com/embed/VIDEO or /v/VIDEO
+    const parts = u.pathname.split("/").filter(Boolean);
+    const possible = parts.find((p) => /^[\w-]{11}$/.test(p));
+    if (possible) return possible;
+  } catch (e) {
+    // fall through to regex
+  }
+
+  // fallback regex (captures first 11-char pattern)
+  const m = str.match(/([A-Za-z0-9_-]{11})/);
+  return m ? m[1] : null;
+}
+
 /* ------------------------- CountUpOnView ------------------------- */
 function CountUpOnView({ end = 100, duration = 1500, suffix = "", decimals = 0, formatter }) {
   const ref = useRef(null);
@@ -34,7 +69,7 @@ function CountUpOnView({ end = 100, duration = 1500, suffix = "", decimals = 0, 
       { threshold: 0.3 }
     );
 
-    observer.observe(ref.current);
+    if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
   }, [end, duration, decimals]);
 
@@ -56,47 +91,51 @@ function CountUpOnView({ end = 100, duration = 1500, suffix = "", decimals = 0, 
 const programs = [
   {
     title: "Undergraduate Programs",
-    description:
-      "Explore diverse undergraduate programs that empower students to innovate, lead, and excel in their fields.",
+    description: "Explore diverse undergraduate programs that empower students to innovate, lead, and excel in their fields.",
     link: "/programs/undergraduate",
-    img: "https://images.unsplash.com/photo-1603574670812-d24560880210?auto=format&fit=crop&w=1000&q=80",
+    img: "https://imgs.search.brave.com/86jVQvbXfyqgLaQWeiEHjsI511NsZn_6aEEL-RZkORA/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzA5Lzc0LzI5LzM5/LzM2MF9GXzk3NDI5/MzkxMl9PY1F0VXpD/aTQ4cm9uM3ZYU29x/VkNMQXIyM1ZxSFhv/Qy5qcGc",
   },
   {
     title: "Postgraduate Programs",
-    description:
-      "Advance your expertise and research capabilities through our wide range of postgraduate programs.",
+    description: "Advance your expertise and research capabilities through our wide range of postgraduate programs.",
     link: "/programs/postgraduate",
-    img: "https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=1000&q=80",
+    img: "https://imgs.search.brave.com/75h1m4tYBu5aaUmKCMsDBO2R2atHzJGs18yJx3X-FQ8/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTYz/MTA2MTIwMS9waG90/by9pbmRpYW4tY29s/bGVnZS1zdHVkZW50/cy1zaXR0aW5nLW9u/LXN0YWlycy1zdHVk/eWluZy13b3JraW5n/LXRvZ2V0aGVyLmpw/Zz9zPTYxMng2MTIm/dz0wJms9MjAmYz1Z/d0dPTUZJMFhXRFpB/Rnk1SHdJNU1IQXVv/RjY5d3VGZTMtVElF/OVBXanJNPQ",
   },
   {
     title: "Lifelong Learning",
-    description:
-      "Flexible courses and certifications designed for professionals seeking to upskill and stay ahead.",
+    description: "Flexible courses and certifications designed for professionals seeking to upskill and stay ahead.",
     link: "/programs/lifelong-learning",
-    img: "https://images.unsplash.com/photo-1571260899304-425eee4c7efc?auto=format&fit=crop&w=1000&q=80",
+    img: "https://imgs.search.brave.com/OCWAaWQc34oAFv78l2qRYyv28-vRjN1qTMoUvHVSZ0A/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90aHVt/YnMuZHJlYW1zdGlt/ZS5jb20vYi9ncm91/cC1pbmRpYW4tY29s/bGVnZS1zdHVkZW50/cy0yODA3NjEyMC5q/cGc",
   },
 ];
 
-const facultyMembers = [
+/* ------------------------- Faculty (AUTO-SANITIZED YOUTUBE URLS) ------------------------- */
+const facultyMembersRaw = [
   {
-    name: "Dr. Shailashree Haridas",
+    name: "Dr. Guru Prasad Bhat",
     title: "Dean, Faculty of Management & Commerce",
-    img: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=600&q=80",
-    videoId: "dQw4w9WgXcQ",
+    img: "https://imgs.search.brave.com/PxWDDx7melBFeV8kXWQ0Di9jUFiICx6w_nInTN1m0Gw/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/c2ltcGx5bGlmZWlu/ZGlhLmNvbS91cGxv/YWRzLzgvMS8xLzUv/ODExNTQxMi9hbG9r/LWtlanJpd2FsLmpw/Zw",
+    videoId: "https://youtu.be/PY9DcIMGxMs?si=zHV9Z7p5cABAngVU",
   },
   {
     name: "Dr. V Krishna",
     title: "Dean, Student Affairs",
-    img: "https://images.unsplash.com/photo-1531123414780-f8f3f6c0b08b?auto=format&fit=crop&w=600&q=80",
-    videoId: "ysz5S6PUM-U",
+    img: "https://imgs.search.brave.com/MiMZ4RM9mrfdUJBRL4Gr3UcEZk3hAhlLw-1VRia6vGk/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9waS50/ZWRjZG4uY29tL3Iv/dGFsa3N0YXItYXNz/ZXRzLnMzLmFtYXpv/bmF3cy5jb20vcHJv/ZHVjdGlvbi90YWxr/cy90YWxrXzE1ODg2/NS9kZTNjNGFhNi0x/MmEzLTRiOTMtODE1/Ny02NWI4Zjc3NWZj/NTAvQW5zaHVsVGV3/YXJpXzIwMjVULWVt/YmVkLmpwZz91W3Jd/PTImdVtzXT0wLjUm/dVthXT0wLjgmdVt0/XT0wLjAzJnF1YWxp/dHk9ODAmdz0zODQw",
+    videoId: "https://youtu.be/6Af6b_wyiwI?si=pfOT0SzDtGmk7iPM",
   },
   {
     name: "Dr. Shylaja S S",
     title: "Director, Data & AI Programs",
-    img: "https://images.unsplash.com/photo-1543991959-7472a385f0b2?auto=format&fit=crop&w=600&q=80",
-    videoId: "ScMzIvxBSi4",
+    img: "https://imgs.search.brave.com/ZxHHT9ZVNu3U9dDTPtqmwW230VM4JwfOruQnzY4cNbw/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9waS50/ZWRjZG4uY29tL3Iv/dGFsa3N0YXItcGhv/dG9zLnMzLmFtYXpv/bmF3cy5jb20vdXBs/b2Fkcy81ZGEyYzQx/NS1lNzI4LTQ5MTQt/Yjc0Ni1mMTUwMjFh/Zjg1NmEvU3Jpc2h0/aUJha3NoaV8yMDIx/Vy0xMzUweDY3NS5q/cGc_dVtyXT0yJnVb/c109MC41JnVbYV09/MC44JnVbdF09MC4w/MyZxdWFsaXR5PTgw/Jnc9Mzg0MA",
+    videoId: "https://youtu.be/LNHBMFCzznE?si=BU6F6SfiSUXYVZ1O",
   },
 ];
+
+// Sanitize YouTube IDs at creation time
+const facultyMembers = facultyMembersRaw.map((f) => ({
+  ...f,
+  sanitizedId: getYouTubeID(f.videoId),
+}));
 
 /* ------------------------- Animation ------------------------- */
 const fadeUp = {
@@ -104,37 +143,66 @@ const fadeUp = {
   show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
 };
 
-/* ------------------------- Video Modal ------------------------- */
+/* ------------------------- Video Modal (FIXED) ------------------------- */
 function VideoModal({ videoId, onClose }) {
+  // guard: nothing to show
+  if (!videoId) return null;
+
+  // build correct embed URL using the provided videoId
+  const embedUrl = `https://www.youtube.com/embed/${encodeURIComponent(
+    videoId
+  )}?autoplay=1&mute=1&rel=0&modestbranding=1`;
+
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [onClose]);
+
   return (
     <AnimatePresence>
-      {videoId && (
+      <motion.div
+        className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        onClick={onClose}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Video modal"
+      >
         <motion.div
-          className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
+          className="bg-black shadow-xl w-full max-w-3xl relative rounded-md overflow-hidden"
+          initial={{ scale: 0.95 }}
+          animate={{ scale: 1 }}
+          exit={{ scale: 0.95 }}
+          onClick={(e) => e.stopPropagation()}
         >
-          <div className="bg-black shadow-xl w-full max-w-3xl relative">
-            <button
-              onClick={onClose}
-              className="absolute top-3 right-3 text-white text-2xl font-bold hover:text-gray-300"
-            >
-              ×
-            </button>
-            <div className="aspect-video">
-              <iframe
-                width="100%"
-                height="100%"
-                src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}
-                title="Faculty Video"
-                allow="autoplay; encrypted-media"
-                allowFullScreen
-              />
-            </div>
+          {/* close button */}
+          <button
+            onClick={onClose}
+            className="absolute top-3 right-3 text-white text-2xl font-bold hover:text-gray-300 z-20"
+            aria-label="Close video"
+          >
+            ×
+          </button>
+
+          {/* iframe */}
+          <div className="aspect-video bg-black">
+            <iframe
+              width="100%"
+              height="100%"
+              src={embedUrl}
+              title="Faculty Video"
+              frameBorder="0"
+              allow="accelerometer; autoplay; encrypted-media; picture-in-picture"
+              allowFullScreen
+            />
           </div>
         </motion.div>
-      )}
+      </motion.div>
     </AnimatePresence>
   );
 }
@@ -151,7 +219,51 @@ export default function Academics() {
       className="relative py-12 md:py-16 bg-cover bg-center bg-no-repeat"
       style={{ backgroundImage: `url(${bgImageURL})` }}
     >
-      <div className="absolute inset-0 bg-white/85 backdrop-blur-[2px]" />
+      {/* ====== decorative overlay (radial lights + subtle SVG pattern + tint) ====== */}
+      <div className="absolute inset-0 bg-black/60" aria-hidden="true">
+        {/* decorative blurred radial lights */}
+        <div
+          className="absolute -left-24 -top-20 w-[560px] h-[560px] rounded-full opacity-30 blur-3xl"
+          style={{
+            background:
+              "radial-gradient(circle at 20% 20%, rgba(99,102,241,0.22), rgba(59,130,246,0.12) 25%, transparent 45%)",
+          }}
+        />
+        <div
+          className="absolute right-[-120px] top-12 w-[420px] h-[420px] rounded-full opacity-20 blur-2xl"
+          style={{
+            background:
+              "radial-gradient(circle at 80% 10%, rgba(14,165,233,0.18), rgba(99,102,241,0.06) 30%, transparent 55%)",
+          }}
+        />
+
+        {/* subtle pattern overlay (SVG) */}
+        <svg
+          className="absolute inset-0 w-full h-full"
+          preserveAspectRatio="none"
+          style={{ opacity: 0.03 }}
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          <defs>
+            <pattern id="academics-pattern" width="40" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(15)">
+              <rect width="40" height="40" fill="transparent" />
+              <path d="M0 40 L40 0" stroke="currentColor" strokeWidth="0.5" strokeOpacity="0.9" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#academics-pattern)" className="text-slate-700" />
+        </svg>
+
+        {/* overall tint to make hero feel cohesive (soft white tint to keep content readable) */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.85) 100%)",
+            mixBlendMode: "normal",
+          }}
+        />
+      </div>
 
       <div className="relative max-w-7xl mx-auto px-6">
         {/* Header */}
@@ -201,8 +313,6 @@ export default function Academics() {
                   <div className="p-4 text-left text-black flex-1">
                     <h3 className="text-lg md:text-xl font-semibold mb-2">{p.title}</h3>
                     <p className="text-gray-700 text-sm md:text-base mb-4">{p.description}</p>
-
-                    {/* ✅ Glow Button Replaced */}
                     <GlowApplyButton to={p.link} text="Apply" width="140px" bg="#0b65d4" />
                   </div>
                 </div>
@@ -218,7 +328,11 @@ export default function Academics() {
             {facultyMembers.map((f, idx) => (
               <motion.div key={idx} initial="hidden" whileInView="show" variants={fadeUp}>
                 <GlowCard
-                  onClick={() => setSelectedVideo(f.videoId)}
+                  onClick={() => {
+                    // debug log if needed:
+                    // console.log("Opening video:", f.sanitizedId);
+                    setSelectedVideo(f.sanitizedId);
+                  }}
                   width="100%"
                   height="360px"
                   bg="#0b0f1a"

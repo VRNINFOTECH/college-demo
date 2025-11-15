@@ -26,7 +26,7 @@ const FACILITIES = [
   {
     key: "library",
     name: "Central Library",
-    img: "https://images.unsplash.com/photo-1514894784601-8f7f7a1a8b12?auto=format&fit=crop&w=1400&q=80",
+    img: "https://imgs.search.brave.com/G43v69ZYKw3oanu6qNxlWWTKwecNFcH0onVyh2B14ig/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90aHVt/YnMuZHJlYW1zdGlt/ZS5jb20vYi9oYXJ2/YXJkLXVuaXZlcnNp/dHktbGlicmFyeS1y/ZWFkaW5nLXJvb20t/NDY2NTY5NzguanBn",
     desc: "1.2L+ volumes, digital subscriptions, quiet study zones and extended exam-season hours.",
     hours: "8 AM – 10 PM",
     amenities: ["Digital repo", "Study carrels", "24/7 access (exam season)", "Inter-library loan"],
@@ -36,7 +36,7 @@ const FACILITIES = [
   {
     key: "labs",
     name: "Research & Innovation Labs",
-    img: "https://images.unsplash.com/photo-1581091012184-7f4f5f0b1b6c?auto=format&fit=crop&w=1400&q=80",
+    img: "https://imgs.search.brave.com/hkrHz1ZH6wY0MzUevmVKGbJQro33ZOxgZJlqYMssbPQ/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/cmVhZ2VudC5jby51/ay93cC1jb250ZW50/L3VwbG9hZHMvMjAy/NC8wNi9UZXN0aW5n/LXdhdGVyLndlYnA",
     desc: "AI/ML, Robotics, Embedded & IoT labs with modern instrumentation and faculty-led projects.",
     hours: "9 AM – 8 PM",
     amenities: ["GPU clusters", "PCB shop", "3D printers", "Mentor hours"],
@@ -46,7 +46,7 @@ const FACILITIES = [
   {
     key: "sports",
     name: "Sports Complex & Gym",
-    img: "https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=1400&q=80",
+    img: "https://imgs.search.brave.com/vVMe66Sq4NpYIjO933vzcMOFiucLYDu183Q2aJgaNgU/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9zdGF0/aWMudmVjdGVlenku/Y29tL3N5c3RlbS9y/ZXNvdXJjZXMvdGh1/bWJuYWlscy8wNzEv/MzUxLzA0Ny9zbWFs/bC9hLXZvbGxleWJh/bGwtY291cnQtd2l0/aC1hLW5ldC1hbmQt/YS12b2xsZXliYWxs/LW5ldC1waG90by5q/cGc",
     desc: "Indoor courts, weight room, yoga studio, and professional coaching for multiple sports.",
     hours: "6 AM – 10 PM",
     amenities: ["Swimming pool", "Gym floor", "Tennis courts", "Coaching programs"],
@@ -66,7 +66,7 @@ const FACILITIES = [
   {
     key: "hostel",
     name: "Hostels & Dining",
-    img: "https://images.unsplash.com/photo-1505691723518-34d6c4f3f3b5?auto=format&fit=crop&w=1400&q=80",
+    img: "https://imgs.search.brave.com/hEYZep_IgkVHtDuwDlT8qugQO85q-iAiZ1GXZCuTU9E/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9zdGF0/aWMudmVjdGVlenku/Y29tL3N5c3RlbS9y/ZXNvdXJjZXMvdGh1/bWJuYWlscy8wMTMv/NDgzLzk2MC9zbWFs/bC9ncm91cHMtb2Yt/dHJhdmVsZXJzLW9m/LWRpZmZlcmVudC1u/YXRpb25hbGl0aWVz/LWhhdmluZy1mdW4t/aW4tdGhlLWhvc3Rl/bC1waG90by5KUEc",
     desc: "Secure accommodations with hygienic dining halls, study rooms and 24×7 warden support.",
     hours: "24×7",
     amenities: ["Single / twin rooms", "Mess with multi-cuisine", "Laundry", "Common rooms"],
@@ -76,7 +76,7 @@ const FACILITIES = [
   {
     key: "transport",
     name: "Parking & Shuttle",
-    img: "https://images.unsplash.com/photo-1477900871796-63a5f9ff7a8a?auto=format&fit=crop&w=1400&q=80",
+    img: "https://imgs.search.brave.com/delQqSB2Vj0lSNo7nvqyEZcvku0P6pDTbLu4Y87LUHM/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvNTM4/ODY2NDQyL3Bob3Rv/L2dyb3VwLW9mLXN0/dWRlbnRzLXJpZGlu/Zy10aGUtcHVibGlj/LXRyYW5zcG9ydC10/by10aGVpci1jb2xs/ZWdlLmpwZz9zPTYx/Mng2MTImdz0wJms9/MjAmYz1faFpJcEZn/cDdHZEZwcXhvRmpU/cExCejU5MVRVRTBK/QzIta09hbHVFUUI0/PQ",
     desc: "Secure parking, EV charging stations and an intra-campus electric shuttle service.",
     hours: "6 AM – 10 PM",
     amenities: ["EV chargers", "Secure parking", "Shuttle stops", "Accessible parking"],

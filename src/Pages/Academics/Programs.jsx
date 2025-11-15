@@ -1,533 +1,357 @@
-import React, { useMemo, useState, useEffect, useRef } from "react";
-import { Search, ChevronDown, BookOpen, GraduationCap, Layers, FileDown, ArrowRight, Filter, X, TrendingUp, Award, Users, Clock } from "lucide-react";
+// src/Pages/Academics/Departments.jsx
+import React, { useState, useEffect, useMemo, useRef } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import {
+  ChevronRight,
+  BookOpen,
+  Users,
+  Cpu,
+  Briefcase,
+  Beaker,
+  Layers,
+  Award,
+} from "lucide-react";
 
-const DATA = {
-  undergraduate: {
-    highlight: [
-      { code: "btech", title: "B.Tech", duration: "4 Years", type: "Engineering", tag: "UG", popular: true },
-      { code: "bca", title: "BCA", duration: "3 Years", type: "Technology", tag: "UG", popular: true },
-      { code: "bsc", title: "B.Sc", duration: "3 Years", type: "Science", tag: "UG" },
-      { code: "bba", title: "BBA", duration: "3 Years", type: "Management", tag: "UG" },
-      { code: "ba", title: "BA", duration: "3 Years", type: "Arts", tag: "UG" },
-      { code: "bcom", title: "B.Com", duration: "3 Years", type: "Commerce", tag: "UG" },
-    ],
-    btechBranches: [
-      "Computer Science & Engineering (CSE)",
-      "CSE (Data Science)",
-      "CSE (AI & ML)",
-      "Information Science & Engineering (ISE)",
-      "Electronics & Communication Engineering (ECE)",
-      "Electrical & Electronics Engineering (EEE)",
-      "Mechanical Engineering (ME)",
-      "Civil Engineering (CE)",
-      "Mechatronics Engineering",
-      "Biomedical Engineering",
-      "Aerospace Engineering",
-      "Chemical Engineering",
-      "Cyber Security",
-      "Internet of Things (IoT)",
-    ],
-    others: [
-      { title: "B.Design (Communication/UX)", duration: "4 Years" },
-      { title: "B.Pharm", duration: "4 Years" },
-      { title: "BHM (Hotel Management)", duration: "4 Years" },
-      { title: "B.Ed", duration: "2 Years" }
-    ]
+/* ---------------------- sample data (replace as needed) --------------------- */
+const UNDERGRAD_DEPTS = [
+  {
+    id: "engineering",
+    title: "School of Engineering",
+    snippet: "B.Tech degrees across Computer Science, ECE, Mechanical, Civil and more.",
+    icon: Cpu,
+    img:
+      "https://images.stockcake.com/public/e/b/3/eb39d646-8acf-4d5c-a7f2-4c551ce59604_large/engineering-team-working-stockcake.jpg",
   },
-  postgraduate: {
-    programs: [
-      { title: "M.Tech in Computer Science & Engineering", duration: "2 Years" },
-      { title: "M.Tech in Data Science", duration: "2 Years" },
-      { title: "M.Tech in VLSI & Embedded Systems", duration: "2 Years" },
-      { title: "M.Tech in Structural Engineering", duration: "2 Years" },
-      { title: "MBA (General/Finance/Marketing/HR/Business Analytics)", duration: "2 Years" },
-      { title: "MCA", duration: "2 Years" },
-      { title: "M.Sc (Physics/Chemistry/Mathematics/CS)", duration: "2 Years" },
-      { title: "MA (Economics/English/Psychology)", duration: "2 Years" },
-      { title: "M.Pharm", duration: "2 Years" },
-    ]
+  {
+    id: "cs",
+    title: "School of Information Technology and Animation",
+    snippet: "Programs:BCA in AI & ML,Cloud computing,Software Technology,MCA in AI & ML,Cloud computing,Software Technology,BAM-Animation and multimedia",
+    icon: BookOpen,
+    img:
+      "https://aaft.com/assets/Images/Updated/animation(1).jpg",
   },
-  doctoral: {
-    areas: [
-      "Computer Science & Engineering",
-      "Electronics & Communication",
-      "Electrical Engineering",
-      "Mechanical Engineering",
-      "Civil Engineering",
-      "Management",
-      "Commerce",
-      "Basic Sciences",
-      "Humanities & Social Sciences",
-      "Pharmacy",
-    ]
+  {
+    id: "business",
+    title: "School of Business",
+    snippet: "Programs: BBA, MBA — Entrepreneurship, Analytics, Finance,Logistics,Professional",
+    icon: Briefcase,
+    img:
+      "https://sgtuniversity.ac.in/assets/images/faculty/commerce-&-management/programme/cm-img-08.jpg",
   },
-  diplomas: {
-    programs: [
-      { title: "PG Diploma in AI & ML", duration: "1 Year" },
-      { title: "PG Diploma in Cyber Security", duration: "1 Year" },
-      { title: "Diploma in Data Analytics", duration: "1 Year" },
-      { title: "Certificate in UI/UX Design", duration: "6 Months" },
-      { title: "Certificate in Embedded Systems", duration: "6 Months" },
-    ]
-  }
-};
-
-const FILTERS = [
-  { key: "engineering", label: "Engineering", icon: Layers },
-  { key: "technology", label: "Technology", icon: BookOpen },
-  { key: "management", label: "Management", icon: TrendingUp },
-  { key: "science", label: "Science", icon: Award },
-  { key: "arts", label: "Arts", icon: Users },
+  {
+    id: "science",
+    title: "School of Sciences",
+    snippet: "Programs: B.Sc (Physics/Chemistry/Maths), M.Sc and doctoral research.",
+    icon: Beaker,
+    img:
+      "https://imgs.search.brave.com/wNptkJ8liS9TLNzsRtUmLEZSfT5jVxu4vmhcD2cwXLc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90aHVt/YnMuZHJlYW1zdGlt/ZS5jb20vYi9tZWRp/Y2FsLXN0dWRlbnRz/LXNpdHRpbmctYXVk/aWVuY2UtdXN1YWx5/LTEzOTAxMzQwNS5q/cGc",
+  },
+  {
+    id: "arts",
+    title: "School of Arts & Humanities",
+    snippet: "Programs: BA, MA — English, Psychology, Economics.",
+    icon: Users,
+    img:
+      "https://images.shiksha.com/mediadata/images/articles/1616584545phprfoS5W.jpeg",
+  },
+  {
+    id: "pharmacy",
+    title: "School of Pharmacy",
+    snippet: "B.Pharm and M.Pharm — focusing on pharmaceutics & industry projects.",
+    icon: Award,
+    img:
+      "https://www.himalayanbuzz.com/wp-content/uploads/2020/05/Manu_Bora_Doctor.jpg",
+  },
 ];
 
-export default function Academics() {
-  const [tab, setTab] = useState("undergraduate");
-  const [q, setQ] = useState("");
-  const [activeFilters, setActiveFilters] = useState([]);
-  const [showResults, setShowResults] = useState(false);
-  const resultsRef = useRef(null);
+const POSTGRAD_DEPTS = [
+  {
+    id: "mtech-cse",
+    title: "M.Tech — Computer Science & Engineering",
+    snippet: "Advanced coursework, thesis and research in AI, systems and security.",
+    icon: Cpu,
+    img:
+      "https://akm-img-a-in.tosshub.com/indiatoday/images/story/201811/coaching.jpeg?size=1200:675",
+  },
+  {
+    id: "mtech-ds",
+    title: "M.Tech — Data Science",
+    snippet: "Deep learning, data engineering and applied analytics with industry capstones.",
+    icon: BookOpen,
+    img:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoED3bPVUd-8S-iRD4F_Aoxf27ELSzu7AiPg&s",
+  },
+  {
+    id: "mba",
+    title: "MBA — Business & Analytics",
+    snippet: "Two-year MBA with specializations in Finance, Marketing, HR and Analytics.",
+    icon: Briefcase,
+    img:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaOUfsM5h5rNDfkPpSvEvqfW9nac1uHCrrfQ&s",
+  },
+  {
+    id: "msc",
+    title: "M.Sc — Sciences",
+    snippet: "Discipline-specific master's programs with research components.",
+    icon: Beaker,
+    img:
+      "https://gradepowerlearning.com/wp-content/uploads/2021/03/GettyImages-469951129.jpg",
+  },
+];
 
+const DOCTORAL_AREAS = [
+  {
+    id: "phd-cse",
+    title: "Ph.D — Computer Science & Engineering",
+    snippet: "Research in AI, ML, Systems, Security and Data Science.",
+    icon: Cpu,
+    img:
+      "https://media.istockphoto.com/id/477633485/photo/team-of-successful-university-graduates-raising-their-convocation-caps.jpg?s=612x612&w=0&k=20&c=Cg9aAKKOFJkukureA3hzdnXin42O-GCBP60b4h5CLic=",
+  },
+  {
+    id: "phd-ece",
+    title: "Ph.D — Electronics & Communication",
+    snippet: "VLSI, signal processing and embedded systems research.",
+    icon: BookOpen,
+    img:
+      "https://imagesvs.oneindia.com/img/2018/09/indian-students-in-uk-1536727681.jpg",
+  },
+  {
+    id: "phd-management",
+    title: "Ph.D — Management",
+    snippet: "Research in strategy, leadership, organizational behavior and analytics.",
+    icon: Users,
+    img:
+      "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=800&q=60",
+  },
+  {
+    id: "phd-basic",
+    title: "Ph.D — Basic Sciences",
+    snippet: "Doctoral research in Physics, Chemistry, Mathematics and interdisciplinary fields.",
+    icon: Beaker,
+    img:
+      "https://img.jagranjosh.com/images/2025/09/25/article/image/Student-Capital-of-India-1758798060646.webp",
+  },
+];
+
+const TABS = [
+  { key: "undergraduate", label: "Undergraduate" },
+  { key: "postgraduate", label: "Postgraduate" },
+  { key: "doctoral", label: "Doctoral (Ph.D)" },
+];
+
+/* ------------------------------ component -------------------------------- */
+export default function Departments() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const initial = (location.hash || "").replace("#", "") || "undergraduate";
+
+  const [active, setActive] = useState(
+    TABS.some((t) => t.key === initial) ? initial : "undergraduate"
+  );
+  const containerRef = useRef(null);
+  const tabsRef = useRef([]);
+
+  // sync to URL hash + animate
   useEffect(() => {
-    const onClick = (e) => {
-      if (resultsRef.current && !resultsRef.current.contains(e.target)) setShowResults(false);
-    };
-    document.addEventListener("click", onClick);
-    return () => document.removeEventListener("click", onClick);
-  }, []);
-
-  const toggleChip = (key) => {
-    setActiveFilters((prev) => prev.includes(key) ? prev.filter(k => k !== key) : [...prev, key]);
-  };
-
-  const flatSearch = useMemo(() => {
-    const bucket = [];
-    const text = q.trim().toLowerCase();
-
-    DATA.undergraduate.highlight.forEach(p => bucket.push({ ...p, section: "Undergraduate", title: p.title }));
-    DATA.undergraduate.btechBranches.forEach(title => bucket.push({ title, section: "B.Tech Branch" }));
-    DATA.undergraduate.others.forEach(p => bucket.push({ ...p, section: "Undergraduate", title: p.title }));
-    DATA.postgraduate.programs.forEach(p => bucket.push({ ...p, section: "Postgraduate", title: p.title }));
-    DATA.doctoral.areas.forEach(title => bucket.push({ title, section: "Doctoral (Ph.D)" }));
-    DATA.diplomas.programs.forEach(p => bucket.push({ ...p, section: "Diploma/Certificate", title: p.title }));
-
-    let filtered = bucket;
-    if (activeFilters.length) {
-      filtered = filtered.filter(item => {
-        const t = (item.title || "").toLowerCase();
-        return (
-          (activeFilters.includes("engineering") && t.includes("engineer")) ||
-          (activeFilters.includes("technology") && (t.includes("tech") || t.includes("computer") || t.includes("cs"))) ||
-          (activeFilters.includes("management") && (t.includes("mba") || t.includes("management") || t.includes("commerce") || t.includes("bba"))) ||
-          (activeFilters.includes("science") && (t.includes("science") || t.includes("physics") || t.includes("chemistry") || t.includes("mathematics"))) ||
-          (activeFilters.includes("arts") && (t.includes("arts") || t.includes("design") || t.includes("english")))
-        );
-      });
+    if ((location.hash || "").replace("#", "") !== active) {
+      navigate(`#${active}`, { replace: true });
     }
+    const el = containerRef.current;
+    if (!el) return;
+    el.style.opacity = "0";
+    el.style.transform = "translateY(8px)";
+    requestAnimationFrame(() => {
+      el.style.transition =
+        "opacity 420ms cubic-bezier(.22,.9,.32,1), transform 420ms cubic-bezier(.22,.9,.32,1)";
+      el.style.opacity = "1";
+      el.style.transform = "translateY(0)";
+    });
+    const t = setTimeout(() => {
+      if (el) el.style.transition = "";
+    }, 520);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [active]);
 
-    if (!text) return filtered;
-    return filtered.filter(item => (item.title || "").toLowerCase().includes(text));
-  }, [q, activeFilters]);
+  // if user manually navigates hash, update state
+  useEffect(() => {
+    const h = (location.hash || "").replace("#", "");
+    if (h && TABS.some((t) => t.key === h) && h !== active) {
+      setActive(h);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.hash]);
+
+  // keyboard left/right arrow navigation for tabs
+  useEffect(() => {
+    const onKey = (e) => {
+      const idx = TABS.findIndex((t) => t.key === active);
+      if (e.key === "ArrowRight") {
+        const next = TABS[(idx + 1) % TABS.length].key;
+        setActive(next);
+        tabsRef.current[(idx + 1) % TABS.length]?.focus();
+      } else if (e.key === "ArrowLeft") {
+        const prev = TABS[(idx - 1 + TABS.length) % TABS.length].key;
+        setActive(prev);
+        tabsRef.current[(idx - 1 + TABS.length) % TABS.length]?.focus();
+      } else if (e.key === "Home") {
+        setActive(TABS[0].key);
+        tabsRef.current[0]?.focus();
+      } else if (e.key === "End") {
+        setActive(TABS[TABS.length - 1].key);
+        tabsRef.current[TABS.length - 1]?.focus();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [active]);
+
+  const items = useMemo(() => {
+    if (active === "undergraduate") return UNDERGRAD_DEPTS;
+    if (active === "postgraduate") return POSTGRAD_DEPTS;
+    return DOCTORAL_AREAS;
+  }, [active]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50/30">
-      {/* Hero with animated gradient */}
-      <section className="relative bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 text-white pt-28 pb-16 overflow-hidden">
-        {/* Decorative elements */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-white rounded-full blur-3xl"></div>
-          <div className="absolute bottom-10 right-20 w-96 h-96 bg-purple-300 rounded-full blur-3xl"></div>
-        </div>
-        
-        <div className="relative max-w-7xl mx-auto px-4">
-          {/* Stats bar */}
-          <div className="flex flex-wrap gap-4 mb-8">
-            <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2">
-              <Award size={18} />
-              <span className="text-sm font-medium">100+ Programs</span>
-            </div>
-            <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2">
-              <Users size={18} />
-              <span className="text-sm font-medium">15,000+ Students</span>
-            </div>
-            <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2">
-              <TrendingUp size={18} />
-              <span className="text-sm font-medium">95% Placement Rate</span>
-            </div>
-          </div>
-
-          <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-4">
-            Academics & Programs
-          </h1>
-          <p className="text-lg md:text-xl text-blue-50 max-w-3xl mb-8">
-            Explore world-class programs designed to transform your passion into expertise
+    <main className="pt-24 pb-16 bg-white min-h-screen">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Heading */}
+          <h1 className="text-3xl md:text-4xl font-bold text-blue-900 text-center mb-8">Programs Offered</h1>
+          <p className="text-gray-600 max-w-2xl mx-auto mt-2">
+            Learn about our academic departments, their programs, research strengths and contact information.
           </p>
 
-          {/* Enhanced Search */}
-          <div className="max-w-3xl">
-            <div className="relative" ref={resultsRef}>
-              <label htmlFor="programSearch" className="sr-only">Search programs</label>
-              <div className="relative group">
-                <input
-                  id="programSearch"
-                  value={q}
-                  onChange={(e) => { setQ(e.target.value); setShowResults(true); }}
-                  onFocus={() => setShowResults(true)}
-                  placeholder='Try "Data Science", "MBA", "Computer Science"...'
-                  className="w-full h-16 rounded-2xl pl-14 pr-32 text-gray-900 placeholder:text-gray-400 outline-none shadow-2xl focus:ring-4 focus:ring-white/30 transition-all group-hover:shadow-xl"
-                  aria-autocomplete="list"
-                  aria-expanded={showResults}
-                  role="combobox"
-                />
-                <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400" size={22} aria-hidden="true" />
-                {q && (
-                  <button
-                    onClick={() => { setQ(""); setShowResults(false); }}
-                    className="absolute right-28 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                    aria-label="Clear search"
-                  >
-                    <X size={20} />
-                  </button>
-                )}
-                <button
-                  aria-label="Search"
-                  className="absolute right-2 top-1/2 -translate-y-1/2 h-12 px-6 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold shadow-lg transition-all"
-                  onClick={() => setShowResults(true)}
-                >
-                  Search
-                </button>
-              </div>
-
-              {showResults && q && (
-                <div role="listbox" className="absolute z-20 mt-3 w-full bg-white rounded-2xl shadow-2xl max-h-96 overflow-auto border border-gray-100">
-                  {flatSearch.length ? (
-                    flatSearch.map((item, i) => (
-                      <a key={i} href="#" className="block px-5 py-4 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 focus:bg-blue-50 focus:outline-none border-b last:border-b-0 transition-all group">
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <div className="text-gray-900 font-semibold group-hover:text-blue-600 transition-colors">{item.title}</div>
-                            <div className="text-xs text-gray-500 mt-1 flex items-center gap-2">
-                              <span className="inline-flex items-center gap-1">
-                                <BookOpen size={12} />
-                                {item.section}
-                              </span>
-                              {item.duration && (
-                                <span className="inline-flex items-center gap-1">
-                                  <Clock size={12} />
-                                  {item.duration}
-                                </span>
-                              )}
-                            </div>
-                          </div>
-                          <ArrowRight className="opacity-0 group-hover:opacity-100 transition-opacity text-blue-600" size={18} />
-                        </div>
-                      </a>
-                    ))
-                  ) : (
-                    <div className="px-5 py-8 text-center">
-                      <div className="text-gray-400 mb-2">
-                        <Search size={32} className="mx-auto opacity-50" />
-                      </div>
-                      <div className="text-gray-600 font-medium">No matching programs found</div>
-                      <div className="text-sm text-gray-500 mt-1">Try adjusting your search terms</div>
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-
-            {/* Enhanced Filter chips */}
-            <div className="mt-4 flex flex-wrap items-center gap-2">
-              <span className="inline-flex items-center gap-2 text-sm text-white/90 font-medium">
-                <Filter size={16}/> Filter by:
-              </span>
-              {FILTERS.map(f => {
-                const Icon = f.icon;
-                return (
-                  <button
-                    key={f.key}
-                    onClick={() => toggleChip(f.key)}
-                    className={`px-4 py-2 rounded-xl text-sm font-medium border-2 transition-all focus:outline-none focus:ring-2 focus:ring-white/40 ${
-                      activeFilters.includes(f.key) 
-                        ? "bg-white text-blue-700 border-white shadow-lg scale-105" 
-                        : "bg-white/10 text-white border-white/20 hover:bg-white/20 hover:border-white/30 backdrop-blur-sm"
-                    }`}
-                    aria-pressed={activeFilters.includes(f.key)}
-                  >
-                    <span className="flex items-center gap-1.5">
-                      <Icon size={14} />
-                      {f.label}
-                    </span>
-                  </button>
-                );
-              })}
-              {activeFilters.length > 0 && (
-                <button 
-                  onClick={() => setActiveFilters([])} 
-                  className="ml-2 text-sm text-white/90 hover:text-white underline hover:no-underline font-medium"
-                >
-                  Clear all
-                </button>
-              )}
-            </div>
-
-            {/* CTA Buttons */}
-            <div className="mt-8 flex flex-wrap items-center gap-4">
-              <a 
-                href="#apply" 
-                className="bg-white text-blue-700 hover:bg-blue-50 px-6 py-3.5 rounded-xl font-bold shadow-xl hover:shadow-2xl transition-all hover:scale-105 flex items-center gap-2"
-              >
-                <GraduationCap size={20} />
-                Apply Now
-              </a>
-              <a 
-                href="#download" 
-                className="bg-white/10 hover:bg-white/20 backdrop-blur-sm border-2 border-white/30 px-6 py-3.5 rounded-xl font-semibold flex items-center gap-2 transition-all hover:scale-105"
-              >
-                <FileDown size={18} /> Download Prospectus
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Sticky Tabs */}
-      <div className="sticky top-0 z-20 bg-white/95 backdrop-blur-lg border-b shadow-sm">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex overflow-x-auto gap-2 py-3 scrollbar-hide">
-            {[
-              { key: "undergraduate", label: "Undergraduate", icon: BookOpen },
-              { key: "postgraduate", label: "Postgraduate", icon: GraduationCap },
-              { key: "doctoral", label: "Doctoral (Ph.D)", icon: Award },
-              { key: "diplomas", label: "Diplomas & Certificates", icon: Layers },
-            ].map(t => {
-              const Icon = t.icon;
+        {/* Tabs */}
+        <div className="mb-8 flex justify-center">
+          <nav
+            aria-label="Departments tabs"
+            className="inline-flex gap-3 bg-white/40 rounded-full p-1 shadow-sm border border-gray-100"
+            role="tablist"
+          >
+            {TABS.map((t, idx) => {
+              const isActive = t.key === active;
               return (
                 <button
                   key={t.key}
-                  onClick={() => setTab(t.key)}
-                  className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all focus:outline-none focus:ring-2 focus:ring-blue-300 ${
-                    tab === t.key 
-                      ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg scale-105" 
-                      : "bg-gray-100 text-gray-700 hover:bg-gray-200 hover:scale-105"
+                  ref={(el) => (tabsRef.current[idx] = el)}
+                  onClick={() => setActive(t.key)}
+                  role="tab"
+                  aria-selected={isActive}
+                  aria-controls={`panel-${t.key}`}
+                  id={`tab-${t.key}`}
+                  className={`px-4 py-2 rounded-full text-sm font-semibold transition ${
+                    isActive
+                      ? "bg-blue-700 text-white shadow-md"
+                      : "text-gray-700 hover:bg-gray-100"
                   }`}
-                  aria-current={tab === t.key ? "page" : undefined}
                 >
-                  <Icon size={16} />
                   {t.label}
                 </button>
               );
             })}
-          </div>
+          </nav>
         </div>
-      </div>
 
-      {/* Content */}
-      <section className="max-w-7xl mx-auto px-4 py-12">
-        <div className="animate-fadeIn">
-          {tab === "undergraduate" && <Undergraduate />}
-          {tab === "postgraduate" && <Postgraduate />}
-          {tab === "doctoral" && <Doctoral />}
-          {tab === "diplomas" && <Diplomas />}
-        </div>
-      </section>
-    </div>
-  );
-}
-
-function SectionTitle({ children, subtitle }) {
-  return (
-    <div className="mb-8">
-      <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">{children}</h2>
-      {subtitle && <p className="text-gray-600 text-lg">{subtitle}</p>}
-    </div>
-  );
-}
-
-function Card({ title, children, tag, href, popular }) {
-  return (
-    <a 
-      href={href || "#"} 
-      className="group relative rounded-2xl border-2 border-gray-200 bg-white hover:border-blue-300 hover:shadow-xl transition-all duration-300 block focus:outline-none focus:ring-4 focus:ring-blue-300 hover:-translate-y-1 overflow-hidden"
-    >
-      {popular && (
-        <div className="absolute top-3 right-3">
-          <span className="inline-flex items-center gap-1 bg-gradient-to-r from-orange-500 to-pink-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
-            <TrendingUp size={12} />
-            Popular
-          </span>
-        </div>
-      )}
-      <div className="p-6">
-        <div className="flex items-start justify-between gap-3">
-          <div className="flex-1">
-            <div className="font-bold text-lg text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">{title}</div>
-            {tag && (
-              <div className="inline-flex items-center gap-2 text-sm text-gray-600 bg-gray-50 px-3 py-1.5 rounded-lg">
-                <Clock size={14} />
-                {tag}
-              </div>
-            )}
-          </div>
-          <div className="h-10 w-10 rounded-full bg-blue-50 flex items-center justify-center group-hover:bg-blue-600 transition-colors">
-            <ArrowRight className="text-blue-600 group-hover:text-white transition-colors group-hover:translate-x-0.5" size={18} />
-          </div>
-        </div>
-        {children}
-      </div>
-      <div className="h-1 bg-gradient-to-r from-blue-600 to-indigo-600 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>
-    </a>
-  );
-}
-
-function UnderGraduateHighlight() {
-  return (
-    <>
-      <SectionTitle subtitle="Popular undergraduate degrees to kickstart your career journey">
-        Undergraduate Highlights
-      </SectionTitle>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {DATA.undergraduate.highlight.map((p) => (
-          <Card 
-            key={p.code} 
-            title={p.title} 
-            tag={`${p.type} • ${p.duration}`} 
-            href={`#/programs/${p.code}`}
-            popular={p.popular}
-          />
-        ))}
-      </div>
-    </>
-  );
-}
-
-function BTechBranches() {
-  const [open, setOpen] = useState(true);
-  return (
-    <div className="rounded-2xl border-2 border-gray-200 bg-white shadow-lg overflow-hidden">
-      <button 
-        onClick={() => setOpen(!open)} 
-        className="w-full flex items-center justify-between px-6 py-5 hover:bg-gray-50 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-colors"
-      >
-        <div className="flex items-center gap-4">
-          <div className="h-12 w-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
-            <Layers size={22} className="text-white" />
-          </div>
-          <div>
-            <div className="font-bold text-lg text-gray-900 text-left">B.Tech Engineering Branches</div>
-            <div className="text-sm text-gray-600">14 specialized branches available</div>
-          </div>
-        </div>
-        <ChevronDown className={`transition-transform ${open ? "rotate-180" : ""} text-gray-400`} size={22} aria-hidden="true" />
-      </button>
-      {open && (
-        <div className="px-6 pb-6 bg-gradient-to-br from-gray-50 to-blue-50/30">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {DATA.undergraduate.btechBranches.map((b) => (
-              <div 
-                key={b} 
-                className="px-4 py-3 rounded-xl bg-white border border-gray-200 text-sm font-medium text-gray-700 hover:border-blue-300 hover:shadow-md transition-all cursor-pointer group"
+        {/* Content */}
+        <section
+          id={`panel-${active}`}
+          aria-labelledby={`tab-${active}`}
+          ref={containerRef}
+          aria-live="polite"
+          className="space-y-6"
+        >
+          {items.map((d) => {
+            const Icon = d.icon || Layers;
+            return (
+              <article
+                key={d.id}
+                className="group rounded-lg border border-gray-100 p-4 md:p-6 flex flex-col md:flex-row md:items-start gap-4 hover:shadow-lg transition"
               >
-                <span className="group-hover:text-blue-600 transition-colors">{b}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
+                {/* Thumbnail (hidden on small screens) */}
+                <div className="hidden md:block flex-shrink-0 w-40 h-28 overflow-hidden rounded-lg bg-gray-100">
+                  <img
+                    src={d.img}
+                    alt={d.title}
+                    className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
+                    loading="lazy"
+                  />
+                </div>
 
-function Undergraduate() {
-  return (
-    <div className="space-y-12">
-      <UnderGraduateHighlight />
-      <BTechBranches />
-      <div>
-        <SectionTitle>Other Undergraduate Degrees</SectionTitle>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {DATA.undergraduate.others.map((p) => (
-            <Card key={p.title} title={p.title} tag={`Duration • ${p.duration}`} />
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
+                {/* Main content */}
+                <div className="flex-1">
+                  <div className="flex items-start gap-3">
+                    <div className="flex-shrink-0 mt-1">
+                      <span className="inline-flex items-center justify-center h-10 w-10 rounded-md bg-blue-50 text-blue-700">
+                        <Icon className="h-5 w-5" />
+                      </span>
+                    </div>
 
-function Postgraduate() {
-  return (
-    <div>
-      <SectionTitle subtitle="Advance your career with specialized master's programs">
-        Postgraduate Programs
-      </SectionTitle>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {DATA.postgraduate.programs.map((p) => (
-          <Card key={p.title} title={p.title} tag={`Duration • ${p.duration}`} />
-        ))}
-      </div>
-    </div>
-  );
-}
+                    <div>
+                      {/* TITLE with animated underline */}
+                      <h2 className="text-lg md:text-xl font-semibold text-gray-900">
+                        <Link
+                          to={`#/departments/${encodeURIComponent(d.id)}`}
+                          className="group inline-flex items-center gap-2"
+                        >
+                          <span className="relative">
+                            <span className="group-hover:text-blue-700 transition-colors">{d.title}</span>
 
-function Doctoral() {
-  return (
-    <div>
-      <SectionTitle subtitle="Join cutting-edge research in diverse disciplines">
-        Doctoral Programs (Ph.D)
-      </SectionTitle>
-      <div className="rounded-2xl border-2 border-gray-200 bg-white shadow-lg p-8">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-          {DATA.doctoral.areas.map((a) => (
-            <div 
-              key={a} 
-              className="px-4 py-3 rounded-xl bg-gradient-to-br from-gray-50 to-blue-50 border border-gray-200 text-sm font-medium text-gray-700 hover:border-blue-300 hover:shadow-md transition-all cursor-pointer"
+                            {/* animated underline element */}
+                            <span
+                              aria-hidden="true"
+                              className="absolute left-0 -bottom-1 h-0.5 w-full bg-blue-700 transform scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100"
+                            />
+                          </span>
+                        </Link>
+                      </h2>
+
+                      <p className="mt-2 text-gray-700">{d.snippet}</p>
+
+                      {/* meta / small actions */}
+                      <div className="mt-3 flex items-center gap-3">
+                        <Link
+                          to={`#/departments/${encodeURIComponent(d.id)}`}
+                          className="inline-flex items-center gap-2 text-sm font-medium text-blue-700 hover:underline"
+                        >
+                          View department
+                          <ChevronRight className="w-4 h-4" />
+                        </Link>
+
+                        <span className="text-xs text-gray-400">•</span>
+                        <span className="text-xs text-gray-500">Contact: <a href={`mailto:info@university.edu`} className="text-blue-600 hover:underline">info@university.edu</a></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Read more CTA (on right for md+) */}
+                <div className="flex-shrink-0 self-start md:self-center">
+                  <Link
+                    to={`#/departments/${encodeURIComponent(d.id)}`}
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-700 text-white font-medium hover:bg-blue-800 transition"
+                    title={`Read more about ${d.title}`}
+                  >
+                    Read more <ChevronRight className="w-4 h-4" />
+                  </Link>
+                </div>
+              </article>
+            );
+          })}
+
+          <div className="mt-6 rounded-lg border border-dashed border-gray-200 p-6 text-center bg-gray-50">
+            <p className="text-gray-700 mb-3">
+              Can't find the department you're looking for? Contact our academic office for tailored guidance.
+            </p>
+            <Link
+              to="/contact"
+              className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white border border-blue-200 text-blue-700 hover:bg-blue-50 transition"
             >
-              {a}
-            </div>
-          ))}
-        </div>
-        <div className="flex items-start gap-3 p-4 bg-blue-50 rounded-xl border border-blue-200">
-          <Award className="text-blue-600 flex-shrink-0 mt-0.5" size={20} />
-          <div className="text-sm text-gray-700">
-            <span className="font-semibold">Admission Process:</span> Ph.D admissions are conducted through entrance examinations and interviews as per University norms. Research proposals are evaluated by expert committees.
+              Contact Academic Office
+            </Link>
           </div>
-        </div>
+        </section>
       </div>
-    </div>
+    </main>
   );
 }
-
-function Diplomas() {
-  return (
-    <div>
-      <SectionTitle subtitle="Short-term programs for skill enhancement">
-        Diplomas & Certificates
-      </SectionTitle>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {DATA.diplomas.programs.map((p) => (
-          <Card key={p.title} title={p.title} tag={`Duration • ${p.duration}`} />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-// Add custom styles
-const style = document.createElement('style');
-style.textContent = `
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .animate-fadeIn {
-    animation: fadeIn 0.5s ease-out;
-  }
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
-  }
-  .scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-`;
-document.head.appendChild(style);

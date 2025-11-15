@@ -4,29 +4,29 @@ import { motion } from "framer-motion";
 
 const campuses = [
   {
-    name: "Riverside Institute of Technology",
+    name: "Example College",
     location: "Bengaluru, Karnataka",
-    img: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1200&q=80",
+    img: "https://imgs.search.brave.com/lTxIzSpRJ7oTS4CkXBpf074yaaAN252f6ssuRFZNXoA/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTA5/Nzg1NDE1OC9waG90/by9kYXktYXQtdGhl/LWNhbXB1cy5qcGc_/cz02MTJ4NjEyJnc9/MCZrPTIwJmM9cVc2/MnVzbHVEd0c2cExK/LTRHOXg3aDQzYnln/Z28wdXZHR1Zad3lP/THJfZz0",
   },
   {
-    name: "Horizon College of Engineering",
+    name: "Example College",
     location: "Hyderabad, Telangana",
-    img: "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=1200&q=80",
+    img: "https://imgs.search.brave.com/y_OyXp_9ENq37SzWjWnDjGoKTz_RUd2gWlg32z4uTQM/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly91cy4x/MjNyZi5jb20vNDUw/d20vZXNwaWVzL2Vz/cGllczIwMTAvZXNw/aWVzMjAxMDAxMjQ5/LzE1Nzg3ODI4Mi1h/c2lhbi1pbmRpYW4t/Y29sbGVnZS1zdHVk/ZW50LWluLWZvY3Vz/LXdvcmtpbmctb24t/bGFwdG9wLW9yLXJl/YWRpbmctYm9vay13/aGlsZS1vdGhlci1j/bGFzc21hdGVzLWlu/LmpwZz92ZXI9Ng",
   },
   {
-    name: "Skyline Business School",
+    name: "Example College",
     location: "Chennai, Tamil Nadu",
-    img: "https://images.unsplash.com/photo-1603574670812-d24560880210?auto=format&fit=crop&w=1200&q=80",
+    img: "https://imgs.search.brave.com/Oc1KtlCfW3iHr08KX4VdSGJfaJBJRTV4ST6J7q_RN3Y/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzL2Y0LzJm/LzMwL2Y0MmYzMGIy/MDczMjk5YTRmN2U3/YWNhY2MyNmQ2ZmQ3/LmpwZw",
   },
   {
-    name: "Bluefield University",
+    name: "Example College",
     location: "Pune, Maharashtra",
-    img: "https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d?auto=format&fit=crop&w=1200&q=80",
+    img: "https://imgs.search.brave.com/PeDz2XrBB8FD9mZwWlheJT2-6j2dsoYHHKJ4v-0TROk/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvNTQx/NTc3NjUwL3Bob3Rv/L3N0dWRlbnRzLWdv/LXRvLWNhbXB1cy10/aHJvdWdoLXBhcmsu/anBnP3M9NjEyeDYx/MiZ3PTAmaz0yMCZj/PWZObUVKaDVzMFgt/MGRkaUJHRXV5eE42/SFFoTkl3RUFRVklB/bHEwdHhGdlU9",
   },
   {
-    name: "Greenwood College of Arts",
+    name: "Example College",
     location: "Kochi, Kerala",
-    img: "https://images.unsplash.com/photo-1596496059769-7b9ecf0b89fc?auto=format&fit=crop&w=1200&q=80",
+    img: "https://imgs.search.brave.com/H-042XIG7eq0pneu9hninjw9RsrmdPk6k6mW_EFY9gk/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXRteXVuaS5j/b20vYXNzZXRzL2lt/YWdlcy9hcnRpY2xl/cy9jb250ZW50L2Fy/dGljbGVzLTAyMjJh/ZDFlNjZjZDc3Y2U0/NzMzNDAzYjM0ZmVl/NTZhLndlYnA",
   },
 ];
 

@@ -93,7 +93,7 @@ export default function Navbar() {
             <img src={logo} alt="Logo" className="rounded-full h-14 w-14 object-cover" />
           </Link>
           <Link to="/" className="hidden md:block">
-            <span className="text-lg md:text-xl font-bold text-blue-900">Warren College</span>
+            <span className="text-lg md:text-xl font-bold text-blue-900">Example College</span>
             <div className="text-xs text-gray-500">Established 1998</div>
           </Link>
         </div>
