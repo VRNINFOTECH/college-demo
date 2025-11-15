@@ -2,7 +2,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const Card = ({
+const BookCard = ({
   frontText = "",
   backTitle = "",
   backBody = "",
@@ -141,4 +141,4 @@ const StyledWrapper = styled.div`
   }
 `;
 
-export default Card;
+export default BookCard;
